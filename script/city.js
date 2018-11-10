@@ -3,6 +3,8 @@ var City = (
 	// array of elements!
 	function()
 	{
+		var INCOME_INTERVAL = 1000;
+		var INCOME_RATE = 1;
 		var city = {};
 		var wares = {};
 		var utility = {};
@@ -28,6 +30,8 @@ var City = (
 					Engine.log(index);
 					utility[index] = {capacity: 0,demand: 0};
 				}
+				// set intervals
+				setInterval(City.income,INCOME_INTERVAL);
 			},
 			
 			add_building: function(name, number)
@@ -39,6 +43,34 @@ var City = (
 					MPM.set_number(name+"_display_number",city[name]);
 				}
 				return city[name];
+			},
+			// this is the one that should be used when buying by the user, not by any events
+			buy_building: function(name)
+			{
+				let cost = buildings[name].buy();
+				// check first
+				for (let ware in cost)
+				{
+					if (City.get_ware(ware) < cost[ware])
+					{
+						Engine.notify("Not enough " + resources[ware].name + ".");
+						return;
+					}
+				}
+				// check max
+				if (city[name] >= buildings[name].maximum)
+				{
+					Engine.notify(buildings[name].max_message);
+					return;
+				}
+				// subtract
+				for (let ware in cost)
+				{
+					City.add_ware(ware, -cost[ware]);
+				}
+				// add
+				City.add_building(name,1);
+				Engine.notify(buildings[name].build_message);
 			},
 			
 			add_ware: function(name, number)
@@ -72,6 +104,50 @@ var City = (
 					MPM.set_number(name+"_display_number",utility[name].demand);
 				}
 				return utility[name];
+			},
+			
+			get_ware: function(name)
+			{
+				return wares[name];
+			},
+			get_building: function(name)
+			{
+				return city[name];
+			},
+			get_utility: function(name)
+			{
+				return utility[name];
+			},
+			// mining
+			mine_resources: function()
+			{
+				// finite resources
+				
+				// random gain checks
+				City.add_ware("ore",Math.floor(Math.random()*10));
+				City.add_ware("silicon",Math.floor(Math.random()*2));
+				City.add_ware("plastic",Math.floor(Math.random()*3));
+				if(Math.floor(Math.random()*11)>9)
+				{
+					City.add_ware("battery",1);
+					Engine.notify("Found a nice battery just sitting there.");
+				}
+			},
+			
+			// income
+			income: function()
+			{
+				// goes through all buildings and performs income actions
+				for (let building in city)
+				{
+
+					for (let count = 0; count < city[building]; count++)
+					{
+						buildings[building].produce();
+					}
+
+				}
+				Engine.log("incomed");
 			},
 			// debugging dump 
 			get_wares: function()

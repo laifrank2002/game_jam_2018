@@ -112,7 +112,7 @@ div.tooltip:hover
 	background-color: black;
 	color:white;
 	border: solid 1px white;
-	z-index: 5;
+	z-index: 1;
 	
 	position: relative;
     text-align: center;
@@ -121,11 +121,21 @@ div.tooltip:hover
     padding: 2px 10px;
     cursor: pointer;
 }
-.light_button: hover
+.light_button:hover
 {
 	text-decoration-line: underline;
 }
 
+.light_button.disabled
+{
+	color: #888;
+	border: #888 1px solid;
+	cursor: default;
+}
+.light_button.disabled:hover
+{
+	text-decoration-line: none;
+}
 /* content */
 
 div#content
@@ -183,3 +193,4 @@ div#display_panel
 {
 	display: none;
 }
+

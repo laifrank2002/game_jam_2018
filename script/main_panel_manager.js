@@ -1,6 +1,8 @@
 var MPM = (
 	function ()
 	{
+		var MINING_COOLDOWN = 50;
+		
 		var DEF_PANEL = "main_panel";
 		var panel;
 		// references
@@ -20,6 +22,7 @@ var MPM = (
 				build_panel.appendChild(MPM.create_button("Hello"
 					,function(){
 						let solar_panels = 2;
+						let bot_button;
 						Engine.notify('Hi.');
 						MPM.remove_element('test')
 						build_panel.appendChild(MPM.create_button("A solar panel"
@@ -31,16 +34,37 @@ var MPM = (
 								if(solar_panels <= 0)
 								{
 									MPM.remove_element('test2');
+									bot_button = MPM.create_button("Build a bot"
+										,function()
+										{
+											City.buy_building("minerbot");
+										}
+										,"build_bot_button",["light_button"]
+										,MPM.create_tooltip(JSON.stringify(buildings["minerbot"].buy())));
+									build_panel.appendChild(MPM.disable(bot_button));
 									build_panel.appendChild(MPM.create_button("Set it up"
 									,function()
 									{
-										City.add_building("solar_panel",1);
+										City.buy_building("solar_panel");
 										Engine.notify("A little more to the right?");
 										City.add_utility_capacity("energy",1);
-										if(!City.add_ware("photovoltaic_panel",-1))
+										if(!City.get_ware("photovoltaic_panel",-1))
 										{
 											MPM.remove_element('test3');	
 											Engine.notify("That's all of them.");
+											Engine.notify("Hey! Look! There's some shiny rocks on the ground.");
+											var mine_button = MPM.create_button("Mine"
+												,function()
+												{
+													City.mine_resources();
+													MPM.time_out(mine_button,MINING_COOLDOWN);
+													if (City.get_ware("ore")>50)
+													{
+														MPM.enable(bot_button);
+													}
+												}
+												,"mine_button",["light_button"]);
+											build_panel.appendChild(mine_button);
 										}
 										
 									}
@@ -89,6 +113,37 @@ var MPM = (
 			},
 			
 			// DOM Managers
+			
+			time_out: function(element,cooldown)
+			{
+				if (element)
+				{
+					MPM.add_class("disabled",element);
+					element.disabled = true;
+					setTimeout(function(){element.disabled = false;MPM.remove_class("disabled",element)},cooldown);
+				}
+				return element;
+			},
+			
+			disable: function(element)
+			{
+				if (element)
+				{
+					MPM.add_class("disabled",element);
+					element.disabled = true;
+				}
+				return element;
+			},
+			
+			enable: function(element)
+			{
+				if (element)
+				{
+					MPM.remove_class("disabled",element);
+					element.disabled = false;
+				}
+				return element;
+			},
 			
 			remove_element: function(id)
 			{
@@ -143,7 +198,17 @@ var MPM = (
 					}
 				}
 				button_element.innerHTML = button_name;
-				button_element.onclick = button_function;
+				button_element.addEventListener("click"
+					, 
+					function()
+						{
+						// disabled
+							if (!this.disabled)
+							{
+							button_function();
+							}
+						}
+					);
 				Engine.log(tooltip);
 				if (tooltip)
 				{
@@ -209,6 +274,8 @@ var MPM = (
 						tooltip_element.classList.add(tooltip_class[index]);
 					}
 				}
+				// auto add default class 
+				tooltip_element.classList.add("tooltip");
 				tooltip_element.innerHTML = tooltip;
 				return tooltip_element;
 			},

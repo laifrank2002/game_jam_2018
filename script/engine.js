@@ -1,7 +1,12 @@
 /*
- * Main Panel Manager
- * 0.15
- *
+ * Project Procyon
+ * 
+ * 0.20
+ * Buildings and incomes!
+ * 
+ * 0.18
+ * Mines!
+ * Timeout for buttons.
  */
 
 var Engine = {
