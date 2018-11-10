@@ -7,6 +7,7 @@ var MPM = (
 		var build_panel;
 		var display_panel;
 		var resources_panel;
+		var utilities_panel;
 		var buildings_panel;
 		return {
 			initialize: function()
@@ -30,11 +31,12 @@ var MPM = (
 								if(solar_panels <= 0)
 								{
 									MPM.remove_element('test2');
-									build_panel.appendChild(MPM.create_button("Set it up somewhere"
+									build_panel.appendChild(MPM.create_button("Set it up"
 									,function()
 									{
 										City.add_building("solar_panel",1);
 										Engine.notify("A little more to the right?");
+										City.add_utility_capacity("energy",1);
 										if(!City.add_ware("photovoltaic_panel",-1))
 										{
 											MPM.remove_element('test3');	
@@ -53,14 +55,34 @@ var MPM = (
 				
 				// resources panel
 				resources_panel = MPM.create_panel("resources_panel",["panel","resource_panel"]);
-				// DO AUTO LATER
-				resources_panel.appendChild(MPM.create_display("Photovoltaic Panels","photovoltaic_panel_display",["display"]));
+				for (let index in resources)
+				{
+					resources_panel.appendChild(MPM.create_display(resources[index].name,index+"_display",["display"],MPM.create_tooltip(resources[index].tooltip_message,index+"_display_tooltip",["tooltip","bottom","right"])));
+				}
 				// buildings panel
 				buildings_panel = MPM.create_panel("buildings_panel",["panel","resource_panel"]);
 				// DO AUTO LATER TOO
-				buildings_panel.appendChild(MPM.create_display("Solar Panels","solar_panel_display",["display"]));
+				for (let index in buildings)
+				{
+					buildings_panel.appendChild(MPM.create_display(buildings[index].name,index + "_display",["display"],MPM.create_tooltip(buildings[index].tooltip_message,index+"_display_tooltip",["tooltip","bottom","right"])));
+				}
+				
+				// Utilities
+				utilities_panel = MPM.create_panel("utilities_panel",["panel","resource_panel"]);
+				// also do auto 
+				for (let index in utilities)
+				{
+					let utility_num_max = MPM.create_number(index + "_display" + "_number_maximum", ["display_number"]);
+					let utility_num = MPM.create_display(utilities[index].name,index + "_display",["display"],MPM.create_tooltip(utilities[index].tooltip_message,index+"_display_tooltip",["tooltip","bottom","right"]));
+					utility_num.appendChild(document.createTextNode("/"));
+					utility_num.appendChild(utility_num_max);
+					utilities_panel.appendChild(utility_num);
+				}
+				
 				display_panel.appendChild(resources_panel);
 				display_panel.appendChild(buildings_panel);
+				display_panel.appendChild(utilities_panel);
+				
 				// main 
 				panel.appendChild(build_panel);
 				panel.appendChild(display_panel);
@@ -68,11 +90,11 @@ var MPM = (
 			
 			// DOM Managers
 			
-			remove_element: function(button_id)
+			remove_element: function(id)
 			{
-				if(document.getElementById(button_id))
+				if(document.getElementById(id))
 				{
-					document.getElementById(button_id).parentNode.removeChild(document.getElementById(button_id));
+					document.getElementById(id).parentNode.removeChild(document.getElementById(id));
 				}
 			},
 			
@@ -97,7 +119,7 @@ var MPM = (
 				element.classList.remove(element_class);
 			},
 			
-			create_button: function(button_text,button_function,button_id,button_class)
+			create_button: function(button_text,button_function,button_id,button_class,tooltip)
 			{
 				var button_name = button_text || "";
 				var button_classList = button_class;
@@ -122,6 +144,11 @@ var MPM = (
 				}
 				button_element.innerHTML = button_name;
 				button_element.onclick = button_function;
+				Engine.log(tooltip);
+				if (tooltip)
+				{
+					button_element.appendChild(tooltip);
+				}
 				return button_element;
 			},
 			
@@ -160,9 +187,34 @@ var MPM = (
 			{
 				
 			},
+			// tooltip 
+			create_tooltip: function(tooltip, tooltip_id, tooltip_class)
+			{
+				var tooltip_element = document.createElement("div");
+				if (tooltip_id)
+				{
+					if (!document.getElementById(tooltip_id))
+					{
+						tooltip_element.id = tooltip_id;
+					}
+				}
+				else
+				{
+					// do nothing because there is no id to set
+				}
+				if (tooltip_class)
+				{
+					for(let index = 0; index<tooltip_class.length; index++)
+					{
+						tooltip_element.classList.add(tooltip_class[index]);
+					}
+				}
+				tooltip_element.innerHTML = tooltip;
+				return tooltip_element;
+			},
 			
 			// display
-			create_display: function(display_name, display_id, display_class)
+			create_display: function(display_name, display_id, display_class,tooltip)
 			{
 				var display_element = document.createElement("div");
 				if (display_id)
@@ -186,6 +238,11 @@ var MPM = (
 				display_element.innerHTML = display_name + ": ";
 				// auto create number class and append 
 				display_element.append(MPM.create_number(display_id + "_number", ["display_number"]));
+				// tooltip
+				if (tooltip)
+				{
+					display_element.appendChild(tooltip);
+				}
 				return display_element;
 			},
 			

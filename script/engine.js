@@ -1,3 +1,9 @@
+/*
+ * Main Panel Manager
+ * 0.15
+ *
+ */
+
 var Engine = {
 	_log: true,
 	

@@ -60,8 +60,8 @@ div.tooltip
 	padding: 2px 5px;
 	border: 1px solid white;
 	position: absolute;
-	box-shadow: -1px 3px 2px #666;
-	background: background;
+	box-shadow: -1px 1px 5px #FFFFFF;
+	background: black;
 	z-index: 999;
 }
 
@@ -169,6 +169,10 @@ div#display_panel
 	padding: 5px 10px;
 }
 
+.display
+{
+	position: relative;
+}
 /* framework */
 .visible
 {
