@@ -1,11 +1,32 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-    <head>
-        <!-- insert stuff here -->
-    </head>
-    <body>
-        <!-- add your elements ABOVE this marker -->
-        <!-- scripts will be added, so they should load last -->
-        <script src="javascript/engine.js"></script>
-    </body>
+<head>
+	<script>
+		window.onload = function()
+		{
+			Engine.initialize();
+		};
+	</script>
+	<script src="script/main_panel_manager.js"></script>
+	<script src="script/buildings.js"></script>
+	<script src="script/resources.js"></script>
+	<script src="script/utilities.js"></script>
+	<script src="script/city.js"></script>
+	<script src="script/engine.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+
+
+</head>
+<body>
+	<div id="content">
+		<div id="message_panel">
+			<div id="message_panel_gradient">
+			
+			</div>
+		</div>
+		<div id="main_panel">
+			
+		</div>
+	</div>
+</body>
 </html>
