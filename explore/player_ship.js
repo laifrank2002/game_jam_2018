@@ -11,10 +11,10 @@ var Player_ship = (function() {
         y: 0,
     };
     
-    var THRUST    = 0.001;
+    var THRUST    = 0.05;
     var MAX_SPEED = 0.5;
     var ROT_SPEED = 0.003;
-    var FRICTION  = 0.0005;
+    var FRICTION  = 0.02; //coefficient of friction
     var angle     = -Math.PI / 2; //start facing...up?
     
     var keys = {
@@ -50,6 +50,28 @@ var Player_ship = (function() {
     var weapons   = [];
     var abilities = []; //store functions for them here.
     
+    function rotate(lapse) {
+        //rotates the ship
+        angle += (keys.rot_left ? -ROT_SPEED * lapse : 0);
+        angle += (keys.rot_right ? ROT_SPEED * lapse : 0);
+    }
+    
+    function get_friction() {
+        //gets the friction vector
+        return {
+            x: -VECTOR.x * FRICTION,
+            y: -VECTOR.y * FRICTION,
+        };
+    }
+    
+    function get_thrust() {
+        //gets the thrust vector
+        return {
+            x: (keys.forward ? Math.cos(angle) * THRUST : 0),
+            y: (keys.forward ? Math.sin(angle) * THRUST : 0),
+        };
+    }
+    
     return {
         enter_orbit: function() {
             //code for entering orbit around a planet
@@ -57,19 +79,15 @@ var Player_ship = (function() {
         
         get_new_position(lapse) {
             //first, update the angles
-            angle += (keys.rot_left ? -ROT_SPEED * lapse : 0);
-            angle += (keys.rot_right ? ROT_SPEED * lapse : 0);
+            rotate(lapse);
             
-            if (keys.forward) {
-                VECTOR.x += Math.cos(angle) * THRUST * lapse;
-                VECTOR.y += Math.sin(angle) * THRUST * lapse;
-                
-                //VECTOR.x = closer_to_zero(VECTOR.x, Math.cos(angle) * MAX_SPEED);
-                //VECTOR.y = closer_to_zero(VECTOR.y, Math.sin(angle) * MAX_SPEED);
-            }
+            //get friction
+            VECTOR.x += get_friction().x;
+            VECTOR.y += get_friction().y;
             
-            VECTOR.x = toward(VECTOR.x, FRICTION * lapse, 0);
-            VECTOR.y = toward(VECTOR.y, FRICTION * lapse, 0);
+            //get thrust
+            VECTOR.x += get_thrust().x;
+            VECTOR.y += get_thrust().y;
             
             POS.x += VECTOR.x * lapse;
             POS.y += VECTOR.y * lapse;
