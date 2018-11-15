@@ -11,10 +11,10 @@ var Player_ship = (function() {
         y: 0,
     };
     
-    var THRUST    = 0.05;
+    var THRUST    = 0.03;
     var MAX_SPEED = 0.5;
     var ROT_SPEED = 0.003;
-    var FRICTION  = 0.02; //coefficient of friction
+    var FRICTION  = 0.025; //coefficient of friction
     var angle     = -Math.PI / 2; //start facing...up?
     
     var keys = {

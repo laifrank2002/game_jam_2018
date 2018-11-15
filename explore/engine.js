@@ -72,7 +72,9 @@ var Explore_engine = (function() {
         
         draw_screen: function(lapse) {
             //clear the canvas first
-            context.clearRect(0, 0, EE.game_area_x, EE.game_area_y);
+            
+            context.fillStyle = "rgba(0, 0, 0, 0.1)";
+            context.fillRect(0, 0, EE.game_area_x, EE.game_area_y);
             
             //animation code
             Player_ship.get_new_position(lapse);
