@@ -1,12 +1,11 @@
-var Explore_assets = (function() {
-    var player_ship = create_image("player_ship.png");
+var Assets = (function() {
+    //place image assets here
+    var player_ship = create_image("assets/player_ship.png");
     
     return {
         get player_ship() { return player_ship; },
     };
 })();
-
-var EA = Explore_assets;
 
 function create_image(path) {
     var img = document.createElement("img");

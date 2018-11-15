@@ -100,7 +100,7 @@ var Player_ship = (function() {
             
             context.translate(POS.x, POS.y);
             context.rotate(angle);
-            context.drawImage(EA.player_ship, -SHIP_WIDTH_OFFSET, -SHIP_HEIGHT_OFFSET);
+            context.drawImage(Assets.player_ship, -SHIP_WIDTH_OFFSET, -SHIP_HEIGHT_OFFSET);
             
             context.restore();
         },
