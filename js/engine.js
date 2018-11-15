@@ -2,7 +2,7 @@ var Engine = (function() {
     //new hybrid engine! Wow!
     //the goal: put both engines into one file,
     //and hope to minify the impact of everything else
-    //****PLEASE TEST BEFORE DECIDING IF YOU LIKE IT****//
+    //****PLEASE RIGOUROUSLY TEST BEFORE DECIDING IF YOU LIKE IT****//
     
     /*------- the core parts of the engine -------*/
     
@@ -161,14 +161,14 @@ var Engine = (function() {
     
         activate_keys: function() {
             //activates keys' event handlers
-            addEventHandler("keydown", key_down_event);
-            addEventHandler("keyup", key_up_event);
+            addEventListener("keydown", key_down_event);
+            addEventListener("keyup", key_up_event);
         },
         
         deactivate_keys: function() {
             //deactivates keys' event handlers
-            removeEventHandler("keydown", key_down_event);
-            removeEventHandler("keyup", key_up_event);
+            removeEventListener("keydown", key_down_event);
+            removeEventListener("keyup", key_up_event);
         },
         
         //getters: these will be visible, but not directly changeable
