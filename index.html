@@ -1,32 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script>
-		window.onload = function()
-		{
-			Engine.initialize();
-		};
-	</script>
-	<script src="script/main_panel_manager.js"></script>
-	<script src="script/buildings.js"></script>
-	<script src="script/resources.js"></script>
-	<script src="script/utilities.js"></script>
-	<script src="script/city.js"></script>
-	<script src="script/engine.js"></script>
-	<link rel="stylesheet" type="text/css" href="style.css">
+    <script>
+        window.onload = function()
+        {
+            Engine.initialize();
+        };
+    </script>
+    
+    <!--- ****please test these!!**** --->
+    <script src="js/main_panel_manager.js"></script>
+    <script src="js/buildings.js"></script>
+    <script src="js/resources.js"></script>
+    <script src="js/utilities.js"></script>
+    <script src="js/city.js"></script>
+    <script src="js/engine.js"></script>
+    
+    <!--- ****new files**** --->
+    <script src="js/player_ship.js"></script>
+    <script src="js/assets.js"></script>
+    
+    <!---
+        note: not all files have been added. when they are tested and working,
+        they will be added here.
+    --->
+    
+    <!--- unchanged --->
+    <link rel="stylesheet" type="text/css" href="style.css">
 
 
 </head>
 <body>
-	<div id="content">
-		<div id="message_panel">
-			<div id="message_panel_gradient">
-			
-			</div>
-		</div>
-		<div id="main_panel">
-			
-		</div>
-	</div>
+    <div id="content">
+        <div id="message_panel">
+            <div id="message_panel_gradient">
+            
+            </div>
+        </div>
+        <div id="main_panel">
+            
+        </div>
+    </div>
 </body>
 </html>
