@@ -28,6 +28,7 @@ var Engine = (function() {
     //left: 37, right: 39, up: 38, down: 40
     //   a: 65,     d: 68,  w: 87,    s: 83
     function key_down_event(e) {
+        e.preventDefault();
         switch (e.keyCode) {
             case 37:
             case 65:
@@ -57,6 +58,7 @@ var Engine = (function() {
     }
     
     function key_up_event(e) {
+        e.preventDefault();
         switch (e.keyCode) {
             case 37:
             case 65:
