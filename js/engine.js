@@ -6,11 +6,10 @@ var Engine = (function() {
     
     /*------- the core parts of the engine -------*/
     
-    //insert stuff here
-    
+	// events
+	var triggers = [];
     /*------- for the ADR part -------*/
     
-    //insert stuff here, Frank
     
     /*--------for the Everyone's Sky part -------*/
     //data
@@ -18,6 +17,8 @@ var Engine = (function() {
     
     var exploring = true;
     
+	// event_listener for all the events 
+	
     //to keep track of animation time
     var last_time = null, lapse = 0, paused = false;
     
@@ -99,12 +100,15 @@ var Engine = (function() {
             MPM.initialize();
             City.initialize();
             Engine.notify("It is a cold night, isn't it?");
+			
+			// Set triggers
+			setInterval(Engine.check_triggers,1000);
         },
         
         notify: function(message) {
             // auto clear 
             if (message_panel.childNodes.length > 40 ) {
-                message_panel.removeChild(message_panel.childNodes[9]);
+                message_panel.removeChild(message_panel.childNodes[40]);
             }
 
             var new_message         = document.createElement("DIV");
@@ -171,6 +175,38 @@ var Engine = (function() {
             removeEventListener("keyup", key_up_event);
         },
         
+		// events, triggers
+		add_trigger: function(event_name) {
+			triggers.push(event_name);
+		},
+		
+		remove_trigger: function(event_name) {
+			// search and delete 
+			for(let index in triggers)
+			{
+				if (triggers[index] === event_name)
+				{
+					triggers.splice(index, index+1);
+					return;
+				}
+			}
+		},
+		
+		// regularly intervaled checkers 
+		check_triggers: function() {
+			for(let index in triggers)
+			{
+				if (triggers[index])
+				{
+					if(events[triggers[index]]["trigger"]())
+					{
+						events[triggers[index]]["event"]();
+						Engine.log("Event " + triggers[index] + " has been triggered.");
+					}
+				}
+			}
+		},
+		
         //getters: these will be visible, but not directly changeable
         get ships() { return ships; },
         get projectiles() { return projectiles; },
