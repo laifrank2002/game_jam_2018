@@ -66,6 +66,12 @@ var Player_ship = (function() {
     
     function get_thrust() {
         //gets the thrust vector
+        
+        //make a bubble
+        if (keys.forward) {
+            Engine.projectiles.push(new Bubble(POS.x, POS.y, -Math.cos(angle), -Math.sin(angle)));
+        }
+        
         return {
             x: (keys.forward ? Math.cos(angle) * THRUST : 0),
             y: (keys.forward ? Math.sin(angle) * THRUST : 0),

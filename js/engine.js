@@ -12,6 +12,9 @@ var Engine = (function() {
     
     //insert stuff here, Frank
     
+    //data
+    var checks = [];
+    
     /*--------for the Everyone's Sky part -------*/
     //data
     var ships = [], projectiles = [], planets = [], resources = [];
@@ -26,7 +29,7 @@ var Engine = (function() {
     
     //handles key presses; to help remove and add event handlers
     //left: 37, right: 39, up: 38, down: 40
-    //   a: 65,     d: 68,  w: 87,    s: 83
+    //   a: 65,     d: 68,  w: 87,    s: 83, space: 32
     function key_down_event(e) {
         e.preventDefault();
         switch (e.keyCode) {
@@ -54,6 +57,10 @@ var Engine = (function() {
                 Player_ship.reverse = true;
                 Engine.log("BACKWARD key pressed.");
                 break;
+            case 32:
+                //space: fire blasters (pew pew)
+                Player_ship.fire = true;
+                Engine.log("FIRE key pressed.");
         }
     }
     
@@ -62,27 +69,19 @@ var Engine = (function() {
         switch (e.keyCode) {
             case 37:
             case 65:
-                //left key: rotate shiop counter-clockwise
                 Player_ship.rot_left = false;
-                Engine.log("LEFT key pressed.");
                 break;
             case 39:
             case 68:
-                //right key: rotate ship clockwise
                 Player_ship.rot_right = false;
-                Engine.log("RIGHT key pressed");
                 break;
             case 38:
             case 87:
-                //up key: move forward
                 Player_ship.forward = false;
-                Engine.log("FORWARD key pressed.");
                 break;
             case 40:
             case 83:
-                //down key: reverse, somehow
                 Player_ship.reverse = false;
-                Engine.log("BACKWARD key pressed.");
                 break;
         }
     }
@@ -138,7 +137,16 @@ var Engine = (function() {
             context.fillStyle = "rgb(0, 0, 0)";
             context.fillRect(0, 0, Engine.canvas_x, Engine.canvas_y);
             
-            //animation code
+            //animation code below
+            
+            //draw the projectiles first
+            projectiles = projectiles.filter(function(p) { return p.active; });
+            projectiles.forEach(function(p) {
+                p.get_new_position(lapse);
+                p.draw(context);
+            });
+            
+            //draw the player's ship last
             Player_ship.get_new_position(lapse);
             Player_ship.draw(context);
         },

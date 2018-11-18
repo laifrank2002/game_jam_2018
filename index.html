@@ -3,7 +3,7 @@
 <head>
     
     <style>
-	</style>
+    </style>
     <!--- ****please test these!!**** --->
     <script src="js/main_panel_manager.js"></script>
     <script src="js/buildings.js"></script>
@@ -13,8 +13,10 @@
     <script src="js/engine.js"></script>
     
     <!--- ****new files**** --->
-    <script src="js/player_ship.js"></script>
     <script src="js/assets.js"></script>
+    <script src="js/bubble.js"></script>
+    <script src="js/bullet.js"></script>
+    <script src="js/player_ship.js"></script>
     
     <!---
         note: not all files have been added. when they are tested and working,
@@ -23,7 +25,7 @@
     
     <!--- unchanged --->
     <link rel="stylesheet" type="text/css" href="style.css">
-	
+    
 
 </head>
 <body>
@@ -37,13 +39,13 @@
             
         </div>
     </div>
-	<canvas id="canv"></canvas>
-	<script>
-		var canv;
+    <canvas id="canv"></canvas>
+    <script>
+        var canv;
         window.onload = function()
         {
             Engine.initialize();
-			canv = document.getElementById("canv");
+            canv = document.getElementById("canv");
         };
     </script>
 </body>
