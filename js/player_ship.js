@@ -11,16 +11,21 @@ var Player_ship = (function() {
         y: 0,
     };
     
-    var THRUST    = 0.03;
+    var THRUST    = 0.005;
     var MAX_SPEED = 0.5;
     var ROT_SPEED = 0.003;
-    var FRICTION  = 0.025; //coefficient of friction
+    var FRICTION  = 0.0125; //coefficient of friction
     var angle     = -Math.PI / 2; //start facing...up?
+    
+    var time_since_fire = 0; //time since last fire
+    var FIRE_TIME       = 250;
     
     var keys = {
         forward:   false,
         rot_left:  false,
         rot_right: false,
+        reverse:   false,
+        fire:      false,
     };
     
     var wrap = function() {
@@ -66,10 +71,20 @@ var Player_ship = (function() {
     
     function get_thrust() {
         //gets the thrust vector
+        
+        //make a bubble
+        if (keys.forward) {
+            Engine.projectiles.push(new Bubble(POS.x, POS.y, -Math.cos(angle), -Math.sin(angle)));
+        }
+        
         return {
             x: (keys.forward ? Math.cos(angle) * THRUST : 0),
             y: (keys.forward ? Math.sin(angle) * THRUST : 0),
         };
+    }
+    
+    function fire_bullet() {
+        return new Bullet(POS.x, POS.y, Math.cos(angle), Math.sin(angle));
     }
     
     return {
@@ -91,6 +106,14 @@ var Player_ship = (function() {
             
             POS.x += VECTOR.x * lapse;
             POS.y += VECTOR.y * lapse;
+            
+            //handle firing
+            time_since_fire += lapse;
+            
+            if (keys.fire && time_since_fire > FIRE_TIME) {
+                Engine.projectiles.push(fire_bullet());
+                time_since_fire = 0;
+            }
             
             wrap();
         },
@@ -115,5 +138,7 @@ var Player_ship = (function() {
         set forward(a)   { keys.forward   = a; },
         set rot_left(a)  { keys.rot_left  = a; },
         set rot_right(a) { keys.rot_right = a; },
+        set reverse(a)   { keys.reverse = a; },
+        set fire(a)      { keys.fire = a; },
     };
 })();

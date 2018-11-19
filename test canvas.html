@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <style>
+    </style>
+    <!--- ****please test these!!**** --->
+    <script src="js/main_panel_manager.js"></script>
+    <script src="js/buildings.js"></script>
+    <script src="js/resources.js"></script>
+    <script src="js/utilities.js"></script>
+    <script src="js/city.js"></script>
+    <script src="js/engine.js"></script>
+    <script src="js/event_unlocks.js"></script>
+    
+    <!--- ****new files**** --->
+    <script src="js/assets.js"></script>
+    <script src="js/bubble.js"></script>
+    <script src="js/bullet.js"></script>
+    <script src="js/asteroid.js"></script>
+    <script src="js/player_ship.js"></script>
+    <script src="js/player_planet.js"></script>
+    
+    <!---
+        note: not all files have been added. when they are tested and working,
+        they will be added here.
+    --->
+    
+    <!--- unchanged --->
+    <link rel="stylesheet" type="text/css" href="style.css">
+    
+
+</head>
+<body>
+    <div id="content">
+        <div id="message_panel">
+            <div id="message_panel_gradient">
+            
+            </div>
+        </div>
+        <div id="main_panel">
+            
+        </div>
+    </div>
+    <canvas id="canv"></canvas>
+    <script>
+        var canv;
+        window.onload = function()
+        {
+            Engine.initialize();
+            canv = document.getElementById("canv");
+            
+            Engine.init_explore(canv, window.innerWidth, window.innerHeight);
+            Engine.activate_keys();
+            Engine.animate();
+        };
+    </script>
+</body>
+</html>

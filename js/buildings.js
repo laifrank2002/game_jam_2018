@@ -16,6 +16,12 @@ var buildings = {
 		'produce': function()
 		{
 		},
+		'utility': function()
+		{
+			return {
+				'energy_supply': 1,
+			};
+		},
 	},
 	
 	'minerbot': {

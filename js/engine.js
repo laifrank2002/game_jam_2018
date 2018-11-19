@@ -6,17 +6,17 @@ var Engine = (function() {
     
     /*------- the core parts of the engine -------*/
     
-    //insert stuff here
-    
+    // events
+    var triggers = [];
     /*------- for the ADR part -------*/
-    
-    //insert stuff here, Frank
     
     /*--------for the Everyone's Sky part -------*/
     //data
-    var ships = [], projectiles = [], planets = [], resources = [];
+    var ships = [], projectiles = [], asteroids = [], resources = [];
     
     var exploring = true;
+    
+    // event_listener for all the events 
     
     //to keep track of animation time
     var last_time = null, lapse = 0, paused = false;
@@ -26,7 +26,7 @@ var Engine = (function() {
     
     //handles key presses; to help remove and add event handlers
     //left: 37, right: 39, up: 38, down: 40
-    //   a: 65,     d: 68,  w: 87,    s: 83
+    //   a: 65,     d: 68,  w: 87,    s: 83, space: 32
     function key_down_event(e) {
         e.preventDefault();
         switch (e.keyCode) {
@@ -54,6 +54,10 @@ var Engine = (function() {
                 Player_ship.reverse = true;
                 Engine.log("BACKWARD key pressed.");
                 break;
+            case 32:
+                //space: fire blasters (pew pew)
+                Player_ship.fire = true;
+                Engine.log("FIRE key pressed.");
         }
     }
     
@@ -62,27 +66,25 @@ var Engine = (function() {
         switch (e.keyCode) {
             case 37:
             case 65:
-                //left key: rotate shiop counter-clockwise
                 Player_ship.rot_left = false;
-                Engine.log("LEFT key pressed.");
                 break;
             case 39:
             case 68:
-                //right key: rotate ship clockwise
                 Player_ship.rot_right = false;
-                Engine.log("RIGHT key pressed");
                 break;
             case 38:
             case 87:
-                //up key: move forward
                 Player_ship.forward = false;
-                Engine.log("FORWARD key pressed.");
                 break;
             case 40:
             case 83:
-                //down key: reverse, somehow
                 Player_ship.reverse = false;
-                Engine.log("BACKWARD key pressed.");
+                break;
+            case 32:
+                Player_ship.fire = false;
+                break;
+            case 66:
+                Engine.asteroids.push(new Asteroid(Math.random() * Engine.canvas_x, Math.random() * Engine.canvas_y, 1, 1));
                 break;
         }
     }
@@ -101,12 +103,15 @@ var Engine = (function() {
             MPM.initialize();
             City.initialize();
             Engine.notify("It is a cold night, isn't it?");
+            
+            // Set triggers
+            setInterval(Engine.check_triggers,1000);
         },
         
         notify: function(message) {
             // auto clear 
             if (message_panel.childNodes.length > 40 ) {
-                message_panel.removeChild(message_panel.childNodes[9]);
+                message_panel.removeChild(message_panel.childNodes[40]);
             }
 
             var new_message         = document.createElement("DIV");
@@ -138,7 +143,30 @@ var Engine = (function() {
             context.fillStyle = "rgb(0, 0, 0)";
             context.fillRect(0, 0, Engine.canvas_x, Engine.canvas_y);
             
-            //animation code
+            //animation code below
+            
+            //draw the projectiles first
+            projectiles = projectiles.filter(function(p) { return p.active; });
+            projectiles.forEach(function(p) {
+                p.get_new_position(lapse);
+                p.draw(context);
+            });
+            
+            //draw the asteroids
+            asteroids = asteroids.filter(function(a) { return a.active; });
+            asteroids.forEach(function(a) {
+                a.get_new_position(lapse);
+                a.draw(context);
+            });
+            
+            //draw the resource sprites
+            resources = resources.filter(function (r) { return r.active; });
+            resources.forEach(function(r) {
+                //they don't move
+                r.draw(context);
+            });
+            
+            //draw the player's ship last
             Player_ship.get_new_position(lapse);
             Player_ship.draw(context);
         },
@@ -147,7 +175,7 @@ var Engine = (function() {
             if (last_time == null) {
                 lapse = 0;
             } else {
-                lapse = time - last_time;
+                lapse = time - last_time || 0;
             }
             
             last_time = time;
@@ -173,10 +201,42 @@ var Engine = (function() {
             removeEventListener("keyup", key_up_event);
         },
         
+        // events, triggers
+        add_trigger: function(event_name) {
+            triggers.push(event_name);
+        },
+        
+        remove_trigger: function(event_name) {
+            // search and delete 
+            for(let index in triggers)
+            {
+                if (triggers[index] === event_name)
+                {
+                    triggers.splice(index, index+1);
+                    return;
+                }
+            }
+        },
+        
+        // regularly intervaled checkers 
+        check_triggers: function() {
+            for(let index in triggers)
+            {
+                if (triggers[index])
+                {
+                    if(events[triggers[index]]["trigger"]())
+                    {
+                        events[triggers[index]]["event"]();
+                        Engine.log("Event " + triggers[index] + " has been triggered.");
+                    }
+                }
+            }
+        },
+        
         //getters: these will be visible, but not directly changeable
         get ships() { return ships; },
         get projectiles() { return projectiles; },
-        get planets() { return planets; },
+        get asteroids() { return asteroids; },
         get resources() { return resources; },
         
         get canvas_x() { return canvas.width; },
