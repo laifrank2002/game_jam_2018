@@ -2,7 +2,7 @@ var MPM = (
 	function ()
 	{
 		var MINING_COOLDOWN = 50;
-		
+		var DEFAULT_COOLDOWN = 1000;
 		var DEF_PANEL = "main_panel";
 		var panel;
 		// references
@@ -11,6 +11,8 @@ var MPM = (
 		var resources_panel;
 		var utilities_panel;
 		var buildings_panel;
+		
+		var buttons = {};
 		return {
 			initialize: function()
 			{
@@ -18,7 +20,14 @@ var MPM = (
 				// build_panel
 				build_panel = MPM.create_panel("build_panel",["panel"]);
 				
+				// more elegant cascading events. Hey, I said more, not absolutely.
+				events["initialize"]["event"]();
+				
+				// set up ALL the build buttons
+				
+				
 				// I should overhaul this nesting thing, presumably with scenes or something, we'll see
+				/*
 				build_panel.appendChild(MPM.create_button("Hello"
 					,function(){
 						let solar_panels = 2;
@@ -73,7 +82,7 @@ var MPM = (
 							}
 							,"test2",["light_button"]));}
 					,"test",["light_button"]));
-				
+				*/
 				// display panel
 				display_panel = MPM.create_panel("display_panel",["panel"]);
 				
@@ -81,6 +90,7 @@ var MPM = (
 				resources_panel = MPM.create_panel("resources_panel",["panel","resource_panel"]);
 				for (let index in resources)
 				{
+					
 					resources_panel.appendChild(MPM.create_display(resources[index].name,index+"_display",["display"],MPM.create_tooltip(resources[index].tooltip_message,index+"_display_tooltip",["tooltip","bottom","right"])));
 				}
 				// buildings panel
@@ -150,6 +160,11 @@ var MPM = (
 				if(document.getElementById(id))
 				{
 					document.getElementById(id).parentNode.removeChild(document.getElementById(id));
+					// also auto remove from buttons array 
+					if (buttons[id])
+					{
+						delete buttons[id];
+					}
 				}
 			},
 			
@@ -174,8 +189,10 @@ var MPM = (
 				element.classList.remove(element_class);
 			},
 			
+			// buttons
 			create_button: function(button_text,button_function,button_id,button_class,tooltip)
 			{
+				
 				var button_name = button_text || "";
 				var button_classList = button_class;
 				var button_element = document.createElement("div");
@@ -214,9 +231,21 @@ var MPM = (
 				{
 					button_element.appendChild(tooltip);
 				}
+				buttons[button_id] = button_element;
 				return button_element;
 			},
 			
+			get_button: function(id)
+			{
+				return buttons[id];
+			},
+			
+			remove_button: function(id)
+			{
+				MPM.remove_element(id);
+			},
+			
+			// panels 
 			create_panel: function(panel_id,panel_class)
 			{
 				var panel_element = document.createElement("div");
@@ -346,6 +375,18 @@ var MPM = (
 					document.getElementById(number_id).innerHTML = value;
 				}
 			},
+			
+			append_build_panel: function(element)
+			{
+				if(element)
+				{
+					build_panel.appendChild(element);
+				}
+			},
+			
+			// getters
+			get DEFAULT_COOLDOWN() {return DEFAULT_COOLDOWN},
+			get MINING_COOLDOWN() {return MINING_COOLDOWN},
 		} //
 	}
 )();
