@@ -6,22 +6,18 @@ var Engine = (function() {
     
     /*------- the core parts of the engine -------*/
     
-	// events
-	var triggers = [];
-    /*------- for the ADR part -------*/
-    
-    
-    //data
+    // events
     var triggers = [];
+    /*------- for the ADR part -------*/
     
     /*--------for the Everyone's Sky part -------*/
     //data
-    var ships = [], projectiles = [], planets = [], resources = [];
+    var ships = [], projectiles = [], asteroids = [], resources = [];
     
     var exploring = true;
     
-	// event_listener for all the events 
-	
+    // event_listener for all the events 
+    
     //to keep track of animation time
     var last_time = null, lapse = 0, paused = false;
     
@@ -104,9 +100,9 @@ var Engine = (function() {
             MPM.initialize();
             City.initialize();
             Engine.notify("It is a cold night, isn't it?");
-			
-			// Set triggers
-			setInterval(Engine.check_triggers,1000);
+            
+            // Set triggers
+            setInterval(Engine.check_triggers,1000);
         },
         
         notify: function(message) {
@@ -124,25 +120,6 @@ var Engine = (function() {
             new_message.appendChild(message_text);
 
             message_panel.insertBefore(new_message, message_panel.childNodes[0]);
-        },
-        
-        add_trigger: function(trigger) {
-            triggers.push(trigger);
-            Engine.log("added a trigger.");
-        },
-        
-        remove_trigger: function(trigger) {
-            triggers.filter(function(t) {
-                return t != trigger;
-            });
-            
-            Engine.log("a trigger has been removed.");
-        },
-        
-        check_triggers: function() {
-            triggers.forEach(function(t) {
-                t();
-            });
         },
         
         /*------- Everyone's sky components -------*/
@@ -172,6 +149,20 @@ var Engine = (function() {
                 p.draw(context);
             });
             
+            //draw the asteroids
+            asteroids = asteroids.filter(function(a) { return a.active; });
+            asteroids.forEach(function(a) {
+                a.get_new_position(lapse);
+                a.draw(context);
+            });
+            
+            //draw the resource sprites
+            resources = resources.filter(function (r) { return r.active; });
+            resources.forEach(function(r) {
+                //they don't move
+                r.draw(context);
+            });
+            
             //draw the player's ship last
             Player_ship.get_new_position(lapse);
             Player_ship.draw(context);
@@ -181,7 +172,7 @@ var Engine = (function() {
             if (last_time == null) {
                 lapse = 0;
             } else {
-                lapse = time - last_time;
+                lapse = time - last_time || 0;
             }
             
             last_time = time;
@@ -207,42 +198,42 @@ var Engine = (function() {
             removeEventListener("keyup", key_up_event);
         },
         
-		// events, triggers
-		add_trigger: function(event_name) {
-			triggers.push(event_name);
-		},
-		
-		remove_trigger: function(event_name) {
-			// search and delete 
-			for(let index in triggers)
-			{
-				if (triggers[index] === event_name)
-				{
-					triggers.splice(index, index+1);
-					return;
-				}
-			}
-		},
-		
-		// regularly intervaled checkers 
-		check_triggers: function() {
-			for(let index in triggers)
-			{
-				if (triggers[index])
-				{
-					if(events[triggers[index]]["trigger"]())
-					{
-						events[triggers[index]]["event"]();
-						Engine.log("Event " + triggers[index] + " has been triggered.");
-					}
-				}
-			}
-		},
-		
+        // events, triggers
+        add_trigger: function(event_name) {
+            triggers.push(event_name);
+        },
+        
+        remove_trigger: function(event_name) {
+            // search and delete 
+            for(let index in triggers)
+            {
+                if (triggers[index] === event_name)
+                {
+                    triggers.splice(index, index+1);
+                    return;
+                }
+            }
+        },
+        
+        // regularly intervaled checkers 
+        check_triggers: function() {
+            for(let index in triggers)
+            {
+                if (triggers[index])
+                {
+                    if(events[triggers[index]]["trigger"]())
+                    {
+                        events[triggers[index]]["event"]();
+                        Engine.log("Event " + triggers[index] + " has been triggered.");
+                    }
+                }
+            }
+        },
+        
         //getters: these will be visible, but not directly changeable
         get ships() { return ships; },
         get projectiles() { return projectiles; },
-        get planets() { return planets; },
+        get asteroids() { return asteroids; },
         get resources() { return resources; },
         
         get canvas_x() { return canvas.width; },
