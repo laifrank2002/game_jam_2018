@@ -13,7 +13,7 @@ var Engine = (function() {
     //insert stuff here, Frank
     
     //data
-    var checks = [];
+    var triggers = [];
     
     /*--------for the Everyone's Sky part -------*/
     //data
@@ -83,6 +83,9 @@ var Engine = (function() {
             case 83:
                 Player_ship.reverse = false;
                 break;
+            case 32:
+                Player_ship.fire = false;
+                break;
         }
     }
     
@@ -117,6 +120,25 @@ var Engine = (function() {
             new_message.appendChild(message_text);
 
             message_panel.insertBefore(new_message, message_panel.childNodes[0]);
+        },
+        
+        add_trigger: function(trigger) {
+            triggers.push(trigger);
+            Engine.log("added a trigger.");
+        },
+        
+        remove_trigger: function(trigger) {
+            triggers.filter(function(t) {
+                return t != trigger;
+            });
+            
+            Engine.log("a trigger has been removed.");
+        },
+        
+        check_triggers: function() {
+            triggers.forEach(function(t) {
+                t();
+            });
         },
         
         /*------- Everyone's sky components -------*/
