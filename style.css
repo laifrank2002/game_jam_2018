@@ -59,10 +59,13 @@ div.tooltip
 	display: none;
 	padding: 2px 5px;
 	border: 1px solid white;
-	position: absolute;
+	position: fixed;
 	box-shadow: -1px 1px 5px #FFFFFF;
 	background: black;
 	z-index: 999;
+	
+	left:30px;
+	
 }
 
 .tooltip.bottom

@@ -11,6 +11,7 @@
     <script src="js/utilities.js"></script>
     <script src="js/city.js"></script>
     <script src="js/engine.js"></script>
+    <script src="js/event_unlocks.js"></script>
     
     <!--- ****new files**** --->
     <script src="js/assets.js"></script>
@@ -18,6 +19,14 @@
     <script src="js/bullet.js"></script>
     <script src="js/player_ship.js"></script>
     
+    <script>
+        var canv;
+        window.onload = function()
+        {
+            Engine.initialize();
+            canv = document.getElementById("canv");
+        };
+    </script>
     <!---
         note: not all files have been added. when they are tested and working,
         they will be added here.

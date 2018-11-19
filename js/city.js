@@ -21,7 +21,7 @@ var City = (
 				// create wares
 				for (let ware in resources)
 				{
-					wares[ware] = 0;
+					wares[ware] = {number: 0,maximum: 0};
 				}
 				
 				// create utilities
@@ -51,17 +51,17 @@ var City = (
 				// check first
 				for (let ware in cost)
 				{
-					if (City.get_ware(ware) < cost[ware])
+					if (City.get_ware(ware).number < cost[ware])
 					{
 						Engine.notify("Not enough " + resources[ware].name + ".");
-						return;
+						return false;
 					}
 				}
 				// check max
 				if (city[name] >= buildings[name].maximum)
 				{
 					Engine.notify(buildings[name].max_message);
-					return;
+					return false;
 				}
 				// subtract
 				for (let ware in cost)
@@ -71,17 +71,29 @@ var City = (
 				// add
 				City.add_building(name,1);
 				Engine.notify(buildings[name].build_message);
+				return true;
 			},
 			
 			add_ware: function(name, number)
 			{
-				if (wares[name] || wares[name] === 0) // so that even if wares[name] is 0, it will still register
+				if (wares[name]["number"] || wares[name]["number"] === 0) // so that even if wares[name] is 0, it will still register
 				{
-					wares[name] = wares[name] + number;
+					wares[name]["number"] = wares[name]["number"] + number;
 					// also do DOM
-					MPM.set_number(name+"_display_number",wares[name]);
+					MPM.set_number(name+"_display_number",wares[name]["number"]);
 				}
-				return wares[name];
+				return wares[name]["number"];
+			},
+			
+			add_ware_capacity: function(name, number)
+			{
+				if (wares[name]["maximum"] || wares[name]["maximum"] === 0) // so that even if wares[name] is 0, it will still register
+				{
+					wares[name]["maximum"] = wares[name]["maximum"] + number;
+					// also do DOM
+					MPM.set_number(name+"_display_number",wares[name]["maximum"]);
+				}
+				return wares[name]["maximum"];
 			},
 			
 			add_utility_capacity: function(name, number)
@@ -147,7 +159,7 @@ var City = (
 					}
 
 				}
-				Engine.log("incomed");
+				//Engine.log("incomed");
 			},
 			// debugging dump 
 			get_wares: function()
