@@ -59,12 +59,11 @@ div.tooltip
 	display: none;
 	padding: 2px 5px;
 	border: 1px solid white;
-	position: fixed;
+	position: relative;
 	box-shadow: -1px 1px 5px #FFFFFF;
 	background: black;
 	z-index: 999;
 	
-	left:30px;
 	
 }
 
@@ -75,7 +74,7 @@ div.tooltip
 
 .tooltip.right 
 {
-	left: 2px;
+	left: 20px;
 }
 
 .tooltip.left 
