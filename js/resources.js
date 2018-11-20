@@ -52,12 +52,17 @@ var resources = {
 	},
 	'sternium': {
 		'name': "Crystalline Sternium",
-		'tooltip_message': "-ZZ TESTING ZZ-",
+		'tooltip_message': "Shield generator.",
 		'display': true,
 	},
 	'decinium': {
 		'name': "Decinium Ore",
-		'tooltip_message': "-ZZ TESTING ZZ-",
+		'tooltip_message': "Spaceship hull.",
+		'display': true,
+	},
+	'helium3': {
+		'name': "Helium 3",
+		'tooltip_message': "An excellent fusion fuel source.",
 		'display': true,
 	},
 }

@@ -9,7 +9,6 @@ function Bullet(x, y, vx, vy) {
     
     this.lifetime = 0;
     this.active   = true;
-    this.bullet   = true;
 }
 
 Bullet.prototype.max_lifetime = 2500; //in milliseconds
