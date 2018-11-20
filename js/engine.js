@@ -7,8 +7,8 @@ var Engine = (function() {
     
     /*------- the core parts of the engine -------*/
     
-	// events
-	var triggers = [];
+    // events
+    var triggers = [];
     /*------- for the ADR part -------*/
     
     
@@ -21,8 +21,8 @@ var Engine = (function() {
     
     var exploring = true;
     
-	// event_listener for all the events 
-	
+    // event_listener for all the events 
+    
     //to keep track of animation time
     var last_time = null, lapse = 0, paused = false;
     
@@ -105,9 +105,9 @@ var Engine = (function() {
             MPM.initialize();
             City.initialize();
             Engine.notify("It is a cold night, isn't it?");
-			
-			// Set triggers
-			setInterval(Engine.check_triggers,1000);
+            
+            // Set triggers
+            setInterval(Engine.check_triggers,1000);
         },
         
         notify: function(message) {
@@ -127,6 +127,7 @@ var Engine = (function() {
             message_panel.insertBefore(new_message, message_panel.childNodes[0]);
         },
         
+        /* do not use.
         add_trigger: function(trigger) {
             triggers.push(trigger);
             Engine.log("added a trigger.");
@@ -144,10 +145,12 @@ var Engine = (function() {
             triggers.forEach(function(t) {
                 t();
             });
-        },
+        }, */
         
         /*------- Everyone's sky components -------*/
         init_explore: function(canv, canv_width, canv_height) {
+            paused = false;
+            
             //Frank, give this function a canvas element, a width and a height
             canvas        = canv;
             canvas.width  = canv_width;
@@ -155,6 +158,13 @@ var Engine = (function() {
             context       = canvas.getContext("2d");
             
             //you'll need to activate the event handlers seperately
+        },
+        
+        deact_explore: function() {
+            paused = true;
+            //you need to deactivate the event handlers seperately
+            
+            Engine.log("explore has been deactivated.");
         },
         
         draw_screen: function(lapse) {
@@ -189,9 +199,11 @@ var Engine = (function() {
             
             if (!paused) {
                 Engine.draw_screen(lapse);
+                requestAnimationFrame(Engine.animate);
+            } else {
+                Engine.log("next animation frame NOT requested.");
+                last_time = null;
             }
-            
-            requestAnimationFrame(Engine.animate);
         },
         
         toggle_pause: function() { paused = !paused; },
@@ -208,38 +220,38 @@ var Engine = (function() {
             removeEventListener("keyup", key_up_event);
         },
         
-		// events, triggers
-		add_trigger: function(event_name) {
-			triggers.push(event_name);
-		},
-		
-		remove_trigger: function(event_name) {
-			// search and delete 
-			for(let index in triggers)
-			{
-				if (triggers[index] === event_name)
-				{
-					triggers.splice(index, index+1);
-					return;
-				}
-			}
-		},
-		
-		// regularly intervaled checkers 
-		check_triggers: function() {
-			for(let index in triggers)
-			{
-				if (triggers[index])
-				{
-					if(events[triggers[index]]["trigger"]())
-					{
-						events[triggers[index]]["event"]();
-						Engine.log("Event " + triggers[index] + " has been triggered.");
-					}
-				}
-			}
-		},
-		
+        // events, triggers
+        add_trigger: function(event_name) {
+            triggers.push(event_name);
+        },
+        
+        remove_trigger: function(event_name) {
+            // search and delete 
+            for(let index in triggers)
+            {
+                if (triggers[index] === event_name)
+                {
+                    triggers.splice(index, index+1);
+                    return;
+                }
+            }
+        },
+        
+        // regularly intervaled checkers 
+        check_triggers: function() {
+            for(let index in triggers)
+            {
+                if (triggers[index])
+                {
+                    if(events[triggers[index]]["trigger"]())
+                    {
+                        events[triggers[index]]["event"]();
+                        Engine.log("Event " + triggers[index] + " has been triggered.");
+                    }
+                }
+            }
+        },
+        
         //getters: these will be visible, but not directly changeable
         get ships() { return ships; },
         get projectiles() { return projectiles; },
