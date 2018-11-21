@@ -13,10 +13,10 @@ var events = {
 		"event": function()
 		{
 			MPM.append_build_panel(
-				MPM.create_button("Hello",
+				MPM.create_button("Where am I?",
 					function()
 					{
-						Engine.notify("Hi");
+						Engine.notify("That's irrelevant for the moment, what you need to do is as following:");
 						MPM.remove_element("hello_button");
 						events["initialize_solar_panel_pickup"]["event"]();
 					},"hello_button",["light_button"]));
@@ -34,10 +34,10 @@ var events = {
 		"event": function()
 		{
 			let solar_panels = 2;
-			let pickup_button = MPM.create_button("A Solar Panel",
+			let pickup_button = MPM.create_button("A Solar Panel, take it.",
 				function()
 				{
-					Engine.notify("Yup, that's a solar panel alright. " + (solar_panels-1) + " more left.")
+					Engine.notify("Yup, that's a solar panel alright. ")
 					solar_panels -= 1;
 					City.add_ware("photovoltaic_panel",1);
 					if(solar_panels <= 0)
@@ -60,7 +60,7 @@ var events = {
 		
 		"event": function()
 		{
-			let bot_button = MPM.create_button("Build a bot"
+			let bot_button = MPM.create_button("Build a mining bot"
 				,function()
 				{
 					City.buy_building("minerbot");
@@ -79,7 +79,7 @@ var events = {
 						MPM.remove_element('initialize_solar_panel_setup_button');	
 						Engine.notify("A little more to the right?");
 						Engine.notify("That's all of them.");
-						Engine.notify("Hey! Look! There's some shiny rocks on the ground.");
+						Engine.notify("Hey! Look! There's shiny rocks everywhere!.");
 						events["initialize_mining"]["event"]();
 					}
 					
@@ -117,7 +117,7 @@ var events = {
 	{
 		"trigger": function()
 		{
-			if (City.get_ware("ore").number>=50)
+			if (City.get_ware("crovanite").number>=50)
 			{
 				return true;
 			}
@@ -144,19 +144,19 @@ var events = {
 		
 		"event": function()
 		{
-			Engine.notify("A strange old woman appears out of the fog. She wants 100 ore and 10 batteries, she says she can find some solar panels.");
-			var trade_button = MPM.create_button("Solar Panels"
+			Engine.notify("A strange old woman appears out of the fog. She wants 100 pieces of crovanite and 10 batteries, she says she can find a solar panel.");
+			var trade_button = MPM.create_button("Trade for a Solar Panel"
 				,function()
 				{
-					if(City.get_ware("battery").number >= 10 && City.get_ware("ore").number >= 100)
+					if(City.get_ware("battery").number >= 10 && City.get_ware("crovanite").number >= 100)
 					{
 						City.add_ware("battery",-10);
-						City.add_ware("ore",-100);
+						City.add_ware("crovanite",-100);
 						City.add_ware("photovoltaic_panel",1);
 					}
 				}
 				,"trade_button",["light_button"]
-				,MPM.create_tooltip("100 ore and 10 batteries for 1 solar panel."));
+				,MPM.create_tooltip("100 pieces of crovanite and 10 batteries for 1 solar panel."));
 			build_panel.appendChild(trade_button);
 			
 			build_panel.appendChild(MPM.create_button("Set up a solar panel"
@@ -205,7 +205,7 @@ var events = {
 	{
 		"trigger": function()
 		{
-			if (City.get_ware("iron").number >= 100)
+			if (City.get_ware("crovanite").number >= 500)
 			{
 				return true;
 			}
@@ -230,7 +230,7 @@ var events = {
 	{
 		"trigger": function()
 		{
-			if (City.get_ware("iron").number >= 200)
+			if (City.get_ware("decinium").number >= 200)
 			{
 				return true;
 			}
@@ -255,7 +255,7 @@ var events = {
 	{
 		"trigger": function()
 		{
-			if (City.get_ware("iron").number >= 100)
+			if (City.get_ware("crovanite").number >= 100 && City.get_ware("decinium").number >= 200)
 			{
 				return true;
 			}
@@ -281,7 +281,7 @@ var events = {
 	{
 		"trigger": function()
 		{
-			if (City.get_ware("helium3").number >= 1000)
+			if (City.get_ware("helium3").number >= 1000 && City.get_ware("crovanite").number >= 5000 && City.get_ware("iron").number >= 5000)
 			{
 				return true;
 			}

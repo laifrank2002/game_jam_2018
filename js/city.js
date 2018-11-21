@@ -171,10 +171,11 @@ var City = (
 				// finite resources
 				
 				// random gain checks
-				City.add_ware("ore",Math.floor(Math.random()*10));
+				City.add_ware("crovanite",Math.floor(Math.random()*10));
 				City.add_ware("silicon",Math.floor(Math.random()*2));
 				City.add_ware("plastic",Math.floor(Math.random()*3));
 				City.add_ware("raw_iron",Math.floor(Math.random()*2));
+				City.add_ware("raw_decinium",Math.floor(Math.random()*2));
 				if(Math.floor(Math.random()*11)>9)
 				{
 					City.add_ware("battery",1);
