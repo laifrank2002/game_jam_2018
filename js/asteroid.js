@@ -58,7 +58,7 @@ Asteroid.prototype.wrap = function() {
 };
 
 Asteroid.prototype.check_collision = function() {
-    var x = this.x, y = this.y
+    var x = this.x, y = this.y;
     
     var collision = false;
     

@@ -33,7 +33,13 @@ Start the animation.
     
 * Remember to watch the console for any problems.
 
+To deactivate the explore, first disable event handlers for the keys.
 
+    Engine.deactivate_keys();
+
+Then call Engine.deact_explore().
+
+    Engine.deact_explore();
 
 ** TO ADD IMAGE ASSETS **
 

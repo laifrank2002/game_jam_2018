@@ -17,7 +17,7 @@ var Engine = (function() {
     
     /*--------for the Everyone's Sky part -------*/
     //data
-    var ships = [], projectiles = [], planets = [], resources = [];
+    var ships = [], projectiles = [], asteroids = [], resources = [];
     
     var exploring = true;
     
@@ -87,6 +87,9 @@ var Engine = (function() {
                 break;
             case 32:
                 Player_ship.fire = false;
+                break;
+            case 66:
+                Engine.asteroids.push(new Asteroid(Math.random() * Engine.canvas_x, Math.random() * Engine.canvas_y, 1, 1));
                 break;
         }
     }
@@ -176,11 +179,26 @@ var Engine = (function() {
             
             //animation code below
             
-            //draw the projectiles first
+            //draw everything else first
+            //draw the asteroids
+            asteroids = asteroids.filter(function(a) { return a.active; });
+            asteroids.forEach(function(a) {
+                a.get_new_position(lapse);
+                a.draw(context);
+            });
+            
+            //draw projectiles
             projectiles = projectiles.filter(function(p) { return p.active; });
             projectiles.forEach(function(p) {
                 p.get_new_position(lapse);
                 p.draw(context);
+            });
+            
+            //draw the resource sprites
+            resources = resources.filter(function (r) { return r.active; });
+            resources.forEach(function(r) {
+                //they don't move
+                r.draw(context);
             });
             
             //draw the player's ship last
@@ -255,7 +273,7 @@ var Engine = (function() {
         //getters: these will be visible, but not directly changeable
         get ships() { return ships; },
         get projectiles() { return projectiles; },
-        get planets() { return planets; },
+        get asteroids() { return asteroids; },
         get resources() { return resources; },
         
         get canvas_x() { return canvas.width; },
