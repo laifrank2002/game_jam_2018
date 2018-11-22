@@ -10,11 +10,6 @@ var resources = {
 		'tooltip_message': "Battery, stores energy.",
 		'display': true,
 	},
-	'ore': {
-		'name': "Ore",
-		'tooltip_message': "Delicious, nutritious, and full of foliants!",
-		'display': true,
-	},
 	'silicon': {
 		'name': "Silicon",
 		'tooltip_message': "Useful for making solar panels!",
@@ -26,7 +21,7 @@ var resources = {
 		'display': true,
 	},
 	'fuel': {
-		'name': "Fuel",
+		'name': "Spacecraft Fuel",
 		'tooltip_message': "Don't think about going anywhere without this!",
 		'display': true,
 	},
@@ -37,7 +32,7 @@ var resources = {
 	},
 	'iron': {
 		'name': "Iron",
-		'tooltip_message': "Used to build structures.",
+		'tooltip_message': "Used to build many things.",
 		'display': true,
 	},
 	'crovanite': {
@@ -52,12 +47,22 @@ var resources = {
 	},
 	'sternium': {
 		'name': "Crystalline Sternium",
-		'tooltip_message': "-ZZ TESTING ZZ-",
+		'tooltip_message': "Shield generator.",
+		'display': true,
+	},
+	'raw_decinium': {
+		'name': "Decinium Ore",
+		'tooltip_message': "Reinforced building material",
 		'display': true,
 	},
 	'decinium': {
-		'name': "Decinium Ore",
-		'tooltip_message': "-ZZ TESTING ZZ-",
+		'name': "Decinium",
+		'tooltip_message': "Reinforced building material",
+		'display': true,
+	},
+	'helium3': {
+		'name': "Helium 3",
+		'tooltip_message': "An excellent fusion fuel source.",
 		'display': true,
 	},
 }

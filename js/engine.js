@@ -1,14 +1,19 @@
+// 0.30 hybrid build Alpha (ADR) branch
+
 var Engine = (function() {
     //new hybrid engine! Wow!
     //the goal: put both engines into one file,
     //and hope to minify the impact of everything else
-    //****PLEASE RIGOUROUSLY TEST BEFORE DECIDING IF YOU LIKE IT****//
     
     /*------- the core parts of the engine -------*/
     
     // events
     var triggers = [];
     /*------- for the ADR part -------*/
+    
+    
+    //data
+    var triggers = [];
     
     /*--------for the Everyone's Sky part -------*/
     //data
@@ -110,8 +115,8 @@ var Engine = (function() {
         
         notify: function(message) {
             // auto clear 
-            if (message_panel.childNodes.length > 40 ) {
-                message_panel.removeChild(message_panel.childNodes[40]);
+            if (message_panel.childNodes.length > 20 ) {
+                message_panel.removeChild(message_panel.childNodes[19]); // keeping the glass pane alive and well.
             }
 
             var new_message         = document.createElement("DIV");
@@ -125,8 +130,30 @@ var Engine = (function() {
             message_panel.insertBefore(new_message, message_panel.childNodes[0]);
         },
         
+        /* do not use.
+        add_trigger: function(trigger) {
+            triggers.push(trigger);
+            Engine.log("added a trigger.");
+        },
+        
+        remove_trigger: function(trigger) {
+            triggers.filter(function(t) {
+                return t != trigger;
+            });
+            
+            Engine.log("a trigger has been removed.");
+        },
+        
+        check_triggers: function() {
+            triggers.forEach(function(t) {
+                t();
+            });
+        }, */
+        
         /*------- Everyone's sky components -------*/
         init_explore: function(canv, canv_width, canv_height) {
+            paused = false;
+            
             //Frank, give this function a canvas element, a width and a height
             canvas        = canv;
             canvas.width  = canv_width;
@@ -134,6 +161,13 @@ var Engine = (function() {
             context       = canvas.getContext("2d");
             
             //you'll need to activate the event handlers seperately
+        },
+        
+        deact_explore: function() {
+            paused = true;
+            //you need to deactivate the event handlers seperately
+            
+            Engine.log("explore has been deactivated.");
         },
         
         draw_screen: function(lapse) {
@@ -145,13 +179,7 @@ var Engine = (function() {
             
             //animation code below
             
-            //draw the projectiles first
-            projectiles = projectiles.filter(function(p) { return p.active; });
-            projectiles.forEach(function(p) {
-                p.get_new_position(lapse);
-                p.draw(context);
-            });
-            
+            //draw everything else first
             //draw the asteroids
             asteroids = asteroids.filter(function(a) { return a.active; });
             asteroids.forEach(function(a) {
@@ -159,10 +187,17 @@ var Engine = (function() {
                 a.draw(context);
             });
             
+            //draw projectiles
+            projectiles = projectiles.filter(function(p) { return p.active; });
+            projectiles.forEach(function(p) {
+                p.get_new_position(lapse);
+                p.draw(context);
+            });
+            
             //draw the resource sprites
             resources = resources.filter(function (r) { return r.active; });
             resources.forEach(function(r) {
-                //they don't move
+                r.get_new_position(lapse);
                 r.draw(context);
             });
             
@@ -175,16 +210,18 @@ var Engine = (function() {
             if (last_time == null) {
                 lapse = 0;
             } else {
-                lapse = time - last_time || 0;
+                lapse = time - last_time;
             }
             
             last_time = time;
             
             if (!paused) {
                 Engine.draw_screen(lapse);
+                requestAnimationFrame(Engine.animate);
+            } else {
+                Engine.log("next animation frame NOT requested.");
+                last_time = null;
             }
-            
-            requestAnimationFrame(Engine.animate);
         },
         
         toggle_pause: function() { paused = !paused; },

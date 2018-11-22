@@ -55,6 +55,14 @@ var Player_ship = (function() {
     var weapons   = [];
     var abilities = []; //store functions for them here.
     
+    //changes the engine...of the ship, not the game
+    function set_thrust(t) {
+        //the thrust to friction ratio is 0.4, by the way.
+        THRUST = t;
+        Engine.log("player ship's THRUST changed to " + t + ".");
+    }
+    
+    //movement functions
     function rotate(lapse) {
         //rotates the ship
         angle += (keys.rot_left ? -ROT_SPEED * lapse : 0);
@@ -131,6 +139,7 @@ var Player_ship = (function() {
         get is_moving() { return !(in_orbit && in_combat);},
         
         get angle() { return angle; },
+        get pos() { return POS; },
         
         get weapons() { return weapons; },
         get abilities() { return abilities; },
@@ -140,5 +149,7 @@ var Player_ship = (function() {
         set rot_right(a) { keys.rot_right = a; },
         set reverse(a)   { keys.reverse = a; },
         set fire(a)      { keys.fire = a; },
+        
+        set thrust(t) { set_thrust(t); },
     };
 })();

@@ -15,7 +15,7 @@ var City = (
 				
 				for (let building in buildings)
 				{
-					city[building] = 0;
+					city[building] = {number: 0, maximum: buildings[building].maximum};
 				}
 				
 				// create wares
@@ -36,19 +36,34 @@ var City = (
 			
 			add_building: function(name, number)
 			{
-				if (city[name] || city[name] === 0) // so that even if city[name] is 0, it will still register
+				if (city[name].number || city[name].number === 0) // so that even if city[name] is 0, it will still register
 				{
-					city[name] = city[name] + number;
+					city[name].number = city[name].number + number;
 					// also do DOM
-					MPM.set_number(name+"_display_number",city[name]);
+					MPM.set_number(name+"_display_number",city[name].number);
 				}
-				return city[name];
+				return city[name].number;
+			},
+			
+			add_building_maximum: function(name, number)
+			{
+				if (city[name].maximum || city[name].maximum === 0) // so that even if city[name] is 0, it will still register
+				{
+					city[name].maximum = city[name].maximum + number;
+				}
+				return city[name].maximum;
 			},
 			// this is the one that should be used when buying by the user, not by any events
 			buy_building: function(name)
 			{
 				let cost = buildings[name].buy();
-				// check first
+				// check max first
+				if (city[name].number >= city[name].maximum)
+				{
+					Engine.notify(buildings[name].max_message);
+					return false;
+				}
+				// check cost 
 				for (let ware in cost)
 				{
 					if (City.get_ware(ware).number < cost[ware])
@@ -57,20 +72,40 @@ var City = (
 						return false;
 					}
 				}
-				// check max
-				if (city[name] >= buildings[name].maximum)
+				// check utilities
+				if (buildings[name].utility)
 				{
-					Engine.notify(buildings[name].max_message);
-					return false;
+					let utility_used = buildings[name].utility();
+					for (let utility in utility_used)
+					{
+						if (City.get_utility(utility).demand + buildings[name].utility()[utility] > City.get_utility(utility).capacity)
+						{
+							Engine.notify("Exceeds utility for " + utility + ".");
+							return false;
+						}
+					}
 				}
 				// subtract
 				for (let ware in cost)
 				{
 					City.add_ware(ware, -cost[ware]);
 				}
+				if (buildings[name].utility)
+				{
+					let utility_used = buildings[name].utility();
+					for (let utility in utility_used)
+					{
+						City.add_utility_demand(utility,buildings[name].utility()[utility]);
+					}
+				}
 				// add
 				City.add_building(name,1);
 				Engine.notify(buildings[name].build_message);
+				// onbuy fcn
+				if (buildings[name]["on_buy"])
+				{
+					buildings[name]["on_buy"]();
+				}
 				return true;
 			},
 			
@@ -136,9 +171,11 @@ var City = (
 				// finite resources
 				
 				// random gain checks
-				City.add_ware("ore",Math.floor(Math.random()*10));
+				City.add_ware("crovanite",Math.floor(Math.random()*10));
 				City.add_ware("silicon",Math.floor(Math.random()*2));
 				City.add_ware("plastic",Math.floor(Math.random()*3));
+				City.add_ware("raw_iron",Math.floor(Math.random()*2));
+				City.add_ware("raw_decinium",Math.floor(Math.random()*2));
 				if(Math.floor(Math.random()*11)>9)
 				{
 					City.add_ware("battery",1);
@@ -153,13 +190,16 @@ var City = (
 				for (let building in city)
 				{
 
-					for (let count = 0; count < city[building]; count++)
+					for (let count = 0; count < city[building].number; count++)
 					{
-						buildings[building].produce();
+						if(buildings[building].produce)
+						{
+							buildings[building].produce();
+						}
 					}
 
 				}
-				//Engine.log("incomed");
+				Engine.log("incomed");
 			},
 			// debugging dump 
 			get_wares: function()

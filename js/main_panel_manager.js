@@ -23,66 +23,6 @@ var MPM = (
 				// more elegant cascading events. Hey, I said more, not absolutely.
 				events["initialize"]["event"]();
 				
-				// set up ALL the build buttons
-				
-				
-				// I should overhaul this nesting thing, presumably with scenes or something, we'll see
-				/*
-				build_panel.appendChild(MPM.create_button("Hello"
-					,function(){
-						let solar_panels = 2;
-						let bot_button;
-						Engine.notify('Hi.');
-						MPM.remove_element('test')
-						build_panel.appendChild(MPM.create_button("A solar panel"
-							,function()
-							{
-								Engine.notify("Yup, that's a solar panel alright. " + (solar_panels-1) + " more left.")
-								solar_panels -= 1;
-								City.add_ware("photovoltaic_panel",1);
-								if(solar_panels <= 0)
-								{
-									MPM.remove_element('test2');
-									bot_button = MPM.create_button("Build a bot"
-										,function()
-										{
-											City.buy_building("minerbot");
-										}
-										,"build_bot_button",["light_button"]
-										,MPM.create_tooltip(JSON.stringify(buildings["minerbot"].buy())));
-									build_panel.appendChild(MPM.disable(bot_button));
-									build_panel.appendChild(MPM.create_button("Set it up"
-									,function()
-									{
-										City.buy_building("solar_panel");
-										Engine.notify("A little more to the right?");
-										City.add_utility_capacity("energy",1);
-										if(!City.get_ware("photovoltaic_panel",-1))
-										{
-											MPM.remove_element('test3');	
-											Engine.notify("That's all of them.");
-											Engine.notify("Hey! Look! There's some shiny rocks on the ground.");
-											var mine_button = MPM.create_button("Mine"
-												,function()
-												{
-													City.mine_resources();
-													MPM.time_out(mine_button,MINING_COOLDOWN);
-													if (City.get_ware("ore")>50)
-													{
-														MPM.enable(bot_button);
-													}
-												}
-												,"mine_button",["light_button"]);
-											build_panel.appendChild(mine_button);
-										}
-										
-									}
-									,"test3",["light_button"]));
-								}
-							}
-							,"test2",["light_button"]));}
-					,"test",["light_button"]));
-				*/
 				// display panel
 				display_panel = MPM.create_panel("display_panel",["panel"]);
 				
