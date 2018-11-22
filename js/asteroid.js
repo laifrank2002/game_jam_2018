@@ -96,10 +96,9 @@ Asteroid.prototype.explode = function() {
     
     while (num > 0) {
         var angle  = Math.random() * 2 * Math.PI;
-        var radius = Math.random() * 50;
+        var radius = Math.random() * 75;
         
         Engine.resources.push(new Pickupable(Math.cos(angle) * radius + this.x, Math.sin(angle) * radius + this.y));
-        //Engine.resources.push(new Pickupable(this.x, this.y));
         num -= 1;
     }
 };
