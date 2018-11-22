@@ -37,9 +37,10 @@ var buildings = {
 		'buy': function()
 		{
 			return {
-				'ore': 50,
+				'crovanite': 50,
 				'silicon': 5,
 				'plastic': 25,
+				'battery': 2,
 			};
 		},
 		'utility': function()
@@ -59,12 +60,12 @@ var buildings = {
 		'button': null,
 		'maximum': 2,
 		'tooltip_message': "Holds 3 more mining bots.",
-		'build_message': "Good bot to manage more bots.",
+		'build_message': "A Good bot to manage more bots.",
 		'max_message': "You'll need more garages to house these depots.",
 		'buy': function()
 		{
 			return {
-				'ore': 1000,
+				'crovanite': 500,
 				'silicon': 500,
 				'plastic': 250,
 				'iron': 400,
@@ -83,16 +84,16 @@ var buildings = {
 	},
 	
 	'iron_smelter': {
-		'name': "Iron Furnace",
+		'name': "Metal Forge",
 		'button': null,
 		'maximum': 2,
 		'tooltip_message': "Transforms 1 iron ore into 1 iron.",
 		'build_message': "More iron!",
-		'max_message': "Too many forges and not enough smokestacks makes jack very dead.",
+		'max_message': "Little Timmy will soon discover the hazards of Carbon Monoxide poisoning.",
 		'buy': function()
 		{
 			return {
-				'ore': 100,
+				'crovanite': 100,
 				'silicon': 100,
 				'plastic': 50,
 			};
@@ -123,7 +124,7 @@ var buildings = {
 		'buy': function()
 		{
 			return {
-				'ore': 100,
+				'decinium': 200,
 				'iron': 300,
 				'plastic': 500,
 			};
@@ -144,9 +145,9 @@ var buildings = {
 		'buy': function()
 		{
 			return {
-				'ore': 10000,
+				'crovanite': 5000,
 				'silicon': 500,
-				'iron': 400,
+				'iron': 5000,
 				'plastic': 200,
 				'helium3': 10000,
 				'water': 1000,
@@ -166,13 +167,14 @@ var buildings = {
 		'name': "Helium Collector Receivers",
 		'button': null,
 		'maximum': 10,
-		'tooltip_message': "Freeride off of the limitless network of pre-existing He3 infrastructure! From saturn to your doorstep.",
-		'build_message': "What has the empire ever done for us?",
+		'tooltip_message': "Freeride off of the limitless network of pre-existing He3 infrastructure! From [REDACTED] to your doorstep.",
+		'build_message': "Nationalized Infrastructure!",
 		'max_message': "That's all of the outlets there are. Even government waste has its limits.",
 		'buy': function()
 		{
 			return {
-				'ore': 1000,
+				'decinium': 200,
+				'crovanite': 100,
 				'silicon': 25,
 				'iron': 50,
 				'plastic': 200,
