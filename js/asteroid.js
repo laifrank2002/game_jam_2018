@@ -92,4 +92,14 @@ Asteroid.prototype.explode = function() {
     Engine.log("an asteroid has been destroyed.");
     
     //then scatter some resources
+    var num = Math.random() * 8 + 3;
+    
+    while (num > 0) {
+        var angle  = Math.random() * 2 * Math.PI;
+        var radius = Math.random() * 50;
+        
+        Engine.resources.push(new Pickupable(Math.cos(angle) * radius + this.x, Math.sin(angle) * radius + this.y));
+        //Engine.resources.push(new Pickupable(this.x, this.y));
+        num -= 1;
+    }
 };

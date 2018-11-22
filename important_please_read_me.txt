@@ -1,14 +1,10 @@
 ** IMPORTANT PLEASE READ **
 
-The engines have been unified!
-
 However, we need to rigourously test these. Anything can go wrong here.
 
-0.30 Alpha Branch
-
 ** CHANGES SINCE LAST UPDATE **
- - Buildings implemented
- - City slightly changed
+ - resources to be picked up added (try destroying an asteroid)
+ - See "RESOURCES" section (at the bottom)
 
 
 ** TO IMPLEMENT THE CANVAS **
@@ -69,3 +65,10 @@ Triggers are only used if they need to be added to the engine with
 	Engine.add_trigger("event_name");
 	
 * Remember in the event to remove the trigger on event firing, unless you don't want it that way.
+
+
+** RESOURCES **
+
+When a resource is picked up, nothing happens.
+
+Make something happen, open pickupable.js and edit the Pickupable.prototype.pickup function.

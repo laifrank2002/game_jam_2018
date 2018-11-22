@@ -197,7 +197,7 @@ var Engine = (function() {
             //draw the resource sprites
             resources = resources.filter(function (r) { return r.active; });
             resources.forEach(function(r) {
-                //they don't move
+                r.get_new_position(lapse);
                 r.draw(context);
             });
             
