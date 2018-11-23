@@ -100,7 +100,28 @@ var City = (
 				}
 				// add
 				City.add_building(name,1);
-				Engine.notify(buildings[name].build_message);
+				let result = Math.floor(Math.random() * Math.floor(5)) + 1;
+				switch (result) {
+					case 1:
+						Engine.notify(buildings[name].build_message);
+						break;
+					case 2:
+						Engine.notify(buildings[name].build_message_2);
+						break;
+					case 3:
+						Engine.notify(buildings[name].build_message_3);
+						break;
+					case 4:
+						Engine.notify(buildings[name].build_message_4);
+						break;
+					case 5:
+						Engine.notify(buildings[name].build_message_5);
+						break;
+					default:
+						Engine.notify(buildings[name].build_message);
+						break;
+				}
+				//Engine.notify(buildings[name].build_message);
 				// onbuy fcn
 				if (buildings[name]["on_buy"])
 				{
