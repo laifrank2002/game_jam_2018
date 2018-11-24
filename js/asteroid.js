@@ -26,7 +26,7 @@ Asteroid.prototype.get_new_position = function(lapse) {
     
     this.check_collision();
     
-    this.wrap();
+    this.bounce();
 };
 
 Asteroid.prototype.draw = function(context) {
@@ -39,21 +39,21 @@ Asteroid.prototype.draw = function(context) {
     context.restore();
 };
 
-Asteroid.prototype.wrap = function() {
-    if (this.x < 0) {
-        this.x += Engine.canvas_x;
+Asteroid.prototype.bounce = function() {
+    if (this.x < 0 && this.vector.x < 0) {
+        this.vector.x *= -1;
     }
     
-    if (this.x > Engine.canvas_x) {
-        this.x = this.x % Engine.canvas_x;
+    if (this.x > Engine.canvas_x && this.vector.x > 0) {
+        this.vector.x *= -1;
     }
     
-    if (this.y < 0) {
-        this.y += Engine.canvas_y;
+    if (this.y < 0 && this.vector.y < 0) {
+        this.vector.y *= -1;
     }
     
-    if (this.y > Engine.canvas_y) {
-        this.y = this.y % Engine.canvas_y;
+    if (this.y > Engine.canvas_y && this.vector.y > 0) {
+        this.vector.y *= -1;
     }
 };
 

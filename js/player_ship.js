@@ -28,6 +28,7 @@ var Player_ship = (function() {
         fire:      false,
     };
     
+    //I'm retiring this; maybe use it somewhere else someday
     var wrap = function() {
         if (POS.x < 0) {
             POS.x += Engine.canvas_x;
@@ -91,6 +92,14 @@ var Player_ship = (function() {
         };
     }
     
+    function keep_in_bounds() {
+        POS.x = Math.max(POS.x, 0);
+        POS.y = Math.max(POS.y, 0);
+        
+        POS.x = Math.min(POS.x, Engine.map_size.x);
+        POS.y = Math.min(POS.y, Engine.map_size.y);
+    }
+    
     function fire_bullet() {
         return new Bullet(POS.x, POS.y, Math.cos(angle), Math.sin(angle));
     }
@@ -123,13 +132,23 @@ var Player_ship = (function() {
                 time_since_fire = 0;
             }
             
-            wrap();
+            keep_in_bounds();
         },
         
         draw: function(context) {
             context.save();
             
             context.translate(POS.x, POS.y);
+            context.rotate(angle);
+            context.drawImage(Assets.player_ship, -SHIP_WIDTH_OFFSET, -SHIP_HEIGHT_OFFSET);
+            
+            context.restore();
+        },
+        
+        draw_me: function(context) {
+            context.save();
+            
+            context.translate(relative.x(POS.x), relative.y(POS.y));
             context.rotate(angle);
             context.drawImage(Assets.player_ship, -SHIP_WIDTH_OFFSET, -SHIP_HEIGHT_OFFSET);
             

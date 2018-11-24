@@ -13,6 +13,8 @@ var Engine = (function() {
     //data
     var triggers = [];
     var event_global = [];
+    
+    
     /*--------for the Everyone's Sky part -------*/
     //data
     var ships = [], projectiles = [], asteroids = [], resources = [];
@@ -26,6 +28,72 @@ var Engine = (function() {
     
     //canvas and its context
     var canvas, context;
+    
+    //map size, viewport and their properties
+    var map_size = {
+        //for testing purposes, 1000 by 1000.
+        x: 1000,
+        y: 1000,
+    };
+    
+    var viewport = {
+        width: 0,
+        height: 0,
+        top_left_x: 0,
+        top_left_y: 0,
+        bot_right_x: 0,
+        bot_right_y: 0,
+        
+        scroll_player_to_view: function() {
+            this.top_left_x = Player_ship.pos.x - this.width / 2;
+            this.top_left_y = Player_ship.pos.y - this.height / 2;
+            
+            //make sure the dimensions aren't outside of the map
+            this.top_left_x = Math.max(this.top_left_x, 0);
+            this.top_left_y = Math.max(this.top_left_y, 0);
+            
+            this.top_left_x = Math.min(this.top_left_x + this.width, map_size.x);
+            this.top_left_y = Math.min(this.top_left_y + this.height, map_size.y);
+            
+            this.bot_right_x = this.top_left_x + this.width;
+            this.bot_right_y = this.top_left_x + this.height;
+        },
+        
+        get objects_in_view() {
+            //arrange them in the order they're being drawn
+            var ast = asteroids.filter(function(a) {
+                return (
+                    a.x + a.offset > this.top_left_x &&
+                    a.y + a.offset > this.top_left_y &&
+                    a.x - a.offset < this.bot_right_x &&
+                    a.y - a.offset < this.bot_right_y
+                );
+            });
+            
+            var res = resources.filter(function(r) {
+                return (
+                    r.x + r.offset > this.top_left_x &&
+                    r.y + r.offset > this.top_left_y &&
+                    r.x - r.offset < this.bot_right_x &&
+                    r.y - r.offset < this.bot_right_y
+                );
+            });
+            
+            var prj = projectiles.filter(function(p) {
+                return (
+                    p.x > this.top_left_x &&
+                    p.y > this.top_left_y &&
+                    p.x < this.bot_right_x &&
+                    p.y > this.bot_right_y
+                );
+            });
+            
+            var arr = [].concat(ast, res, prj);
+            arr.push(Player_ship);
+            
+            return arr;
+        },
+    };
     
     //handles key presses; to help remove and add event handlers
     //left: 37, right: 39, up: 38, down: 40
@@ -127,27 +195,7 @@ var Engine = (function() {
 
             message_panel.insertBefore(new_message, message_panel.childNodes[0]);
         },
-        
-        /* do not use.
-        add_trigger: function(trigger) {
-            triggers.push(trigger);
-            Engine.log("added a trigger.");
-        },
-        
-        remove_trigger: function(trigger) {
-            triggers.filter(function(t) {
-                return t != trigger;
-            });
-            
-            Engine.log("a trigger has been removed.");
-        },
-        
-        check_triggers: function() {
-            triggers.forEach(function(t) {
-                t();
-            });
-        }, */
-        
+
         /*------- Everyone's sky components -------*/
         init_explore: function(canv, canv_width, canv_height) {
             paused = false;
@@ -158,6 +206,8 @@ var Engine = (function() {
             canvas.height = canv_height;
             context       = canvas.getContext("2d");
             
+            viewport.width  = canvas.width;
+            viewport.height = canvas.height;
             //you'll need to activate the event handlers seperately
         },
         
@@ -204,6 +254,42 @@ var Engine = (function() {
             Player_ship.draw(context);
         },
         
+        draw_new_frame: function(lapse) {
+            //update player first
+            Player_ship.get_new_position(lapse);
+            
+            //update the viewport right after
+            viewport.scroll_player_to_view();
+            
+            //for asteroids, projectiles, and resource sprites:
+            //first, filter off the ones that aren't active
+            //then, get the new positions of the remaining ones
+            
+            asteroids = asteroids.filter(function(a) {return a.active; });
+            asteroids.forEach(function(a) { a.get_new_position(lapse);});
+            
+            resources = resources.filter(function(r) {return r.active; });
+            resources.forEach(function(r) { r.get_new_position(lapse);});
+            
+            projectiles = projectiles.filter(function(p) { return p.active; });
+            projectiles.forEach(function(p) { p.get_new_position(lapse); });
+            
+            //up to this point, nothing has been drawn yet!
+            
+            //clear the canvas
+            context.clearRect(0, 0, Engine.canvas_x, Engine.canvas_y);
+            
+            //draw the background
+            context.fillStyle = "rgb(0, 0, 0)";
+            context.fillRect(0, 0, Engine.canvax_x, Engine.canvas_y);
+            
+            //draw everything else now!
+            var objects = viewport.objects_in_view;
+            objects.forEach(function(o) {
+                o.draw(context);
+            });
+        },
+        
         animate: function(time) {
             if (last_time == null) {
                 lapse = 0;
@@ -214,7 +300,7 @@ var Engine = (function() {
             last_time = time;
             
             if (!paused) {
-                Engine.draw_screen(lapse);
+                Engine.draw_new_frame(lapse);
                 requestAnimationFrame(Engine.animate);
             } else {
                 Engine.log("next animation frame NOT requested.");
@@ -268,24 +354,25 @@ var Engine = (function() {
             }
         },
         
-		add_event_global: function(event_global_name, value) {
-			event_global[event_global_name] = value;
-		},
-		
-		set_event_global: function(event_global_name, value) {
-			event_global[event_global_name] = value;
-		},
-		
-		get_event_global: function(event_global_name) {
-			return event_global[event_global_name];
-		},
-		
-		remove_event_global: function(event_global_name) {
+        add_event_global: function(event_global_name, value) {
+            event_global[event_global_name] = value;
+        },
+        
+        set_event_global: function(event_global_name, value) {
+            event_global[event_global_name] = value;
+        },
+        
+        get_event_global: function(event_global_name) {
+            return event_global[event_global_name];
+        },
+        
+        remove_event_global: function(event_global_name) {
             // search and delete 
             delete event_global[event_global_name];
         },
-		
+        
         //getters: these will be visible, but not directly changeable
+        //i think most of them are self-explanatory.
         get ships() { return ships; },
         get projectiles() { return projectiles; },
         get asteroids() { return asteroids; },
@@ -293,5 +380,16 @@ var Engine = (function() {
         
         get canvas_x() { return canvas.width; },
         get canvas_y() { return canvas.height; },
+        
+        get viewport() { return viewport; },
+        get map_size() { return map_size; },
+        set map_size(new_size) { map_size.x = new_size.x; map_size.y = new_size.y; },
     };
 })();
+
+//helper functions
+
+var relative = {
+    x: function(x1) { return x1 - Engine.viewport.top_left_x; },
+    y: function(y1) { return y1 - Engine.viewport.top_left_y; },
+};
