@@ -30,8 +30,8 @@ var Engine = (function() {
     //map size, viewport and their properties
     var map_size = {
         //for testing purposes, 1000 by 1000.
-        x: 1000,
-        y: 1000,
+        x: 5000,
+        y: 5000,
     };
     
     var viewport = {
@@ -58,8 +58,8 @@ var Engine = (function() {
         },
         
         is_in_view: function(o, h, v) {
-            var h_offset = h || 0;
-            var v_offset = v || h;
+            var h_offset = h;
+            var v_offset = v;
             
             return (
                 o.x + h_offset > this.top_left_x &&
@@ -70,17 +70,18 @@ var Engine = (function() {
         },
         
         get objects_in_view() {
+            var v = this;
             //arrange them in the order they're being drawn
             var ast = asteroids.filter(function(a) {
-                return Engine.viewport.is_in_view(a, -a.horizontal_offset, -a.vertical_offset);
+                return v.is_in_view(a, -a.horizontal_offset, -a.vertical_offset);
             });
             
             var res = resources.filter(function(r) {
-                return Engine.viewport.is_in_view(r, r.offset, r.offset);
+                return v.is_in_view(r, r.offset, r.offset);
             });
             
             var prj = projectiles.filter(function(p) {
-                return Engine.viewport.is_in_view(p, 0, 0);
+                return v.is_in_view(p, 0, 0);
             });
             
             var arr = [].concat(ast, res, prj);
@@ -233,42 +234,6 @@ var Engine = (function() {
             Engine.log("explore has been deactivated.");
         },
         
-        draw_screen: function(lapse) {
-            //clear the canvas first
-            context.clearRect(0, 0, Engine.canvas_x, Engine.canvas_y);
-            
-            context.fillStyle = "rgb(0, 0, 0)";
-            context.fillRect(0, 0, Engine.canvas_x, Engine.canvas_y);
-            
-            //animation code below
-            
-            //draw everything else first
-            //draw the asteroids
-            asteroids = asteroids.filter(function(a) { return a.active; });
-            asteroids.forEach(function(a) {
-                a.get_new_position(lapse);
-                a.draw(context);
-            });
-            
-            //draw projectiles
-            projectiles = projectiles.filter(function(p) { return p.active; });
-            projectiles.forEach(function(p) {
-                p.get_new_position(lapse);
-                p.draw(context);
-            });
-            
-            //draw the resource sprites
-            resources = resources.filter(function (r) { return r.active; });
-            resources.forEach(function(r) {
-                r.get_new_position(lapse);
-                r.draw(context);
-            });
-            
-            //draw the player's ship last
-            Player_ship.get_new_position(lapse);
-            Player_ship.draw(context);
-        },
-        
         draw_new_frame: function(lapse) {
             //update player first
             Player_ship.get_new_position(lapse);
@@ -303,6 +268,8 @@ var Engine = (function() {
             objects.forEach(function(o) {
                 o.draw(context);
             });
+            
+            //draw_arrow(context);
         },
         
         animate: function(time) {

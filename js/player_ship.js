@@ -162,3 +162,26 @@ var Player_ship = (function() {
         set thrust(t) { set_thrust(t); },
     };
 })();
+
+function draw_arrow(context) {
+    //for drawing the little arrow that guides the player home
+    
+    //find the angle. TRIG all over again! *fun*!
+    //tangent's a weird one, so i'll use sine.
+    var angle;
+    var opp = Player_ship.pos.y - Player_planet.y;
+    var hyp = Math.hypot(Player_ship.pos.x - Player_planet.x, Player_ship.pos.y - Player_planet.y);
+    
+    angle = Math.asinh(opp / hyp);
+    
+    var draw_x = Math.cos(angle) * 100 + (Engine.viewport.width / 2);
+    var draw_y = Math.sin(angle) * 100 + (Engine.viewport.height / 2);
+    
+    context.save();
+    
+    context.translate(draw_x, draw_y);
+    context.rotate(angle);
+    context.drawImage(Assets.arrow, -4, -8);
+    
+    context.restore();
+}
