@@ -127,7 +127,7 @@ var buildings = {
 				City.add_ware('raw_iron', -1);
 				City.add_ware('iron', 1);
 			}
-			if (City.get_ware('raw_decinium'.number >= 1)
+			if (City.get_ware('raw_decinium').number >= 1)
 			{
 				City.add_ware('raw_decinium', -1);
 				City.add_ware('decinium', 1);
