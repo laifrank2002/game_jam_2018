@@ -16,6 +16,8 @@ function Asteroid(x, y, vx, vy) {
     
     this.horizontal_offset = -39;
     this.vertical_offset   = -33;
+    
+    this.offset = 36;
 }
 
 Asteroid.prototype.get_new_position = function(lapse) {
@@ -32,7 +34,7 @@ Asteroid.prototype.get_new_position = function(lapse) {
 Asteroid.prototype.draw = function(context) {
     context.save();
     
-    context.translate(this.x, this.y);
+    context.translate(relative.x(this.x), relative.y(this.y));
     context.rotate(this.angle);
     context.drawImage(Assets.asteroid, this.horizontal_offset, this.vertical_offset);
     
@@ -44,7 +46,7 @@ Asteroid.prototype.bounce = function() {
         this.vector.x *= -1;
     }
     
-    if (this.x > Engine.canvas_x && this.vector.x > 0) {
+    if (this.x > Engine.map_size.x && this.vector.x > 0) {
         this.vector.x *= -1;
     }
     
@@ -52,7 +54,7 @@ Asteroid.prototype.bounce = function() {
         this.vector.y *= -1;
     }
     
-    if (this.y > Engine.canvas_y && this.vector.y > 0) {
+    if (this.y > Engine.map_size.y && this.vector.y > 0) {
         this.vector.y *= -1;
     }
 };

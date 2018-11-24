@@ -57,33 +57,30 @@ var Engine = (function() {
             this.bot_right_y = this.top_left_x + this.height;
         },
         
+        is_in_view: function(o, h, v) {
+            var h_offset = h || 0;
+            var v_offset = v || h;
+            
+            return (
+                o.x + h_offset > this.top_left_x &&
+                o.x - h_offset < this.bot_right_x &&
+                o.y + v_offset > this.top_left_y &&
+                o.y - v_offset < this.bot_right_y
+            );
+        },
+        
         get objects_in_view() {
             //arrange them in the order they're being drawn
             var ast = asteroids.filter(function(a) {
-                return (
-                    a.x + a.offset > this.top_left_x &&
-                    a.y + a.offset > this.top_left_y &&
-                    a.x - a.offset < this.bot_right_x &&
-                    a.y - a.offset < this.bot_right_y
-                );
+                return Engine.viewport.is_in_view(a, -a.horizontal_offset, -a.vertical_offset);
             });
             
             var res = resources.filter(function(r) {
-                return (
-                    r.x + r.offset > this.top_left_x &&
-                    r.y + r.offset > this.top_left_y &&
-                    r.x - r.offset < this.bot_right_x &&
-                    r.y - r.offset < this.bot_right_y
-                );
+                return Engine.viewport.is_in_view(r, r.offset, r.offset);
             });
             
             var prj = projectiles.filter(function(p) {
-                return (
-                    p.x > this.top_left_x &&
-                    p.y > this.top_left_y &&
-                    p.x < this.bot_right_x &&
-                    p.y > this.bot_right_y
-                );
+                return Engine.viewport.is_in_view(p, 0, 0);
             });
             
             var arr = [].concat(ast, res, prj);

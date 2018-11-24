@@ -36,7 +36,7 @@ Pickupable.prototype.get_new_position = function(lapse) {
 };
 
 Pickupable.prototype.draw = function(context) {
-    context.drawImage(Assets.pickupable, this.x - this.offset, this.y - this.offset);
+    context.drawImage(Assets.pickupable, relative.x(this.x - this.offset), relative.y(this.y - this.offset));
 };
 
 Pickupable.prototype.pickup = function() {

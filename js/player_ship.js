@@ -138,16 +138,6 @@ var Player_ship = (function() {
         draw: function(context) {
             context.save();
             
-            context.translate(POS.x, POS.y);
-            context.rotate(angle);
-            context.drawImage(Assets.player_ship, -SHIP_WIDTH_OFFSET, -SHIP_HEIGHT_OFFSET);
-            
-            context.restore();
-        },
-        
-        draw_me: function(context) {
-            context.save();
-            
             context.translate(relative.x(POS.x), relative.y(POS.y));
             context.rotate(angle);
             context.drawImage(Assets.player_ship, -SHIP_WIDTH_OFFSET, -SHIP_HEIGHT_OFFSET);
