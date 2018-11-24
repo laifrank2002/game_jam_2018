@@ -308,4 +308,72 @@ var events = {
 			Engine.remove_trigger("unlock_helium_fusion_plant");
 		}
 	},
+	
+	"shutoff_helium_fusion_plant": 
+	{
+		"trigger": function()
+		{
+			if (City.get_ware("helium3").number <= 0 || City.get_ware("water").number <= 0)
+			{
+				return true;
+			}
+			return false;
+		},
+		
+		"event": function()
+		{
+			// check global var 
+			if (Engine.get_event_global("helium_plant_shutoff") === null)
+			{
+				Engine.add_event_global("helium_plant_shutoff",true);
+				City.add_utility_capacity('energy',-100);
+			}
+			else
+			{
+				if (Engine.get_event_global("helium_plant_shutoff"))
+				{
+					
+				}
+				else 
+				{
+					Engine.set_event_global("helium_plant_shutoff",true);
+					City.add_utility_capacity('energy',-100);
+				}
+			}
+		}
+	},
+	
+	"restart_helium_fusion_plant":
+	{
+		"trigger": function()
+		{
+			if (City.get_ware("helium3").number > 0 && City.get_ware("water").number > 0)
+			{
+				return true;
+			}
+			return false;
+		},
+		
+		"event": function()
+		{
+			// check global var 
+			if (Engine.get_event_global("helium_plant_shutoff") === null)
+			{
+				Engine.add_event_global("helium_plant_shutoff",false);
+				City.add_utility_capacity('energy',100);
+			}
+			else
+			{
+				if (Engine.get_event_global("helium_plant_shutoff"))
+				{
+					Engine.set_event_global("helium_plant_shutoff",false);
+					City.add_utility_capacity('energy',100);
+				}
+				else 
+				{
+					
+				}
+			}
+		}
+	},
 }

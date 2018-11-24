@@ -135,6 +135,8 @@ var City = (
 				if (wares[name]["number"] || wares[name]["number"] === 0) // so that even if wares[name] is 0, it will still register
 				{
 					wares[name]["number"] = wares[name]["number"] + number;
+					// Check if less than 0
+					if (wares[name]["number"] < 0){wares[name]["number"] = 0};
 					// also do DOM
 					MPM.set_number(name+"_display_number",wares[name]["number"]);
 				}
@@ -236,6 +238,16 @@ var City = (
 			get_utilities: function()
 			{
 				return utility;
+			},
+			
+			// DEBUGGING
+			test_add_all: function(num)
+			{
+				var number = num || 10000;
+				for (let ware in resources)
+				{
+					City.add_ware(ware, number);
+				}
 			},
 		}
 	} // 
