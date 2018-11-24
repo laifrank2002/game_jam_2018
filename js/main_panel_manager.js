@@ -1,6 +1,7 @@
 var MPM = (
 	function ()
 	{
+		
 		var MINING_COOLDOWN = 50;
 		var DEFAULT_COOLDOWN = 1000;
 		var BUILD_COOLDOWN = 200;
@@ -63,6 +64,15 @@ var MPM = (
 				panel.appendChild(display_panel);
 			},
 			
+			hide: function()
+			{
+				MPM.add_class("invisible",panel);
+			},
+			
+			show: function()
+			{
+				MPM.remove_class("invisible",panel);
+			},
 			// DOM Managers
 			
 			time_out: function(element,cooldown)

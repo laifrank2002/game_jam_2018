@@ -4,12 +4,10 @@ var Engine = (function() {
     //new hybrid engine! Wow!
     //the goal: put both engines into one file,
     //and hope to minify the impact of everything else
-    
+    var MAIN_HEIGHT = 700;
+	var MAIN_WIDTH = 700;
     /*------- the core parts of the engine -------*/
-    
     /*------- for the ADR part -------*/
-    
-    
     //data
     var triggers = [];
     var event_global = [];
@@ -17,7 +15,7 @@ var Engine = (function() {
     //data
     var ships = [], projectiles = [], asteroids = [], resources = [];
     
-    var exploring = true;
+    var exploring = false;
     
     // event_listener for all the events 
     
@@ -128,6 +126,25 @@ var Engine = (function() {
             message_panel.insertBefore(new_message, message_panel.childNodes[0]);
         },
         
+		switch_explore: function(message) {
+			if (exploring)
+			{
+				MPM.show();
+				MPM.add_class("invisible",explore_panel);
+				Engine.deact_explore();
+				Engine.deactivate_keys();
+				exploring = false;
+			}
+			else
+			{
+				MPM.hide();
+				MPM.remove_class("invisible",explore_panel);
+				Engine.init_explore(canv,MAIN_WIDTH,MAIN_HEIGHT);
+				Engine.animate();
+				Engine.activate_keys();
+				exploring = true;
+			}
+		},
         /* do not use.
         add_trigger: function(trigger) {
             triggers.push(trigger);

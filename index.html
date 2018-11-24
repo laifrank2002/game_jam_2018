@@ -49,14 +49,20 @@
         <div id="main_panel">
             
         </div>
+		
+		<div id="explore_panel" class="invisible">
+			<canvas id="canv"></canvas>
+		</div>
     </div>
-    <canvas id="canv"></canvas>
+    
     <script>
         var canv;
+		var explore;
         window.onload = function()
         {
             Engine.initialize();
             canv = document.getElementById("canv");
+			explore_panel = document.getElementById("explore_panel");
         };
     </script>
 </body>
