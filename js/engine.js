@@ -44,14 +44,14 @@ var Engine = (function() {
         
         scroll_player_to_view: function() {
             this.top_left_x = Player_ship.pos.x - this.width / 2;
-            this.top_left_y = Player_ship.pos.y - this.height / 2;
+            this.top_left_y = Player_ship.pos.y - this.height /2 ;
             
             //make sure the dimensions aren't outside of the map
             this.top_left_x = Math.max(this.top_left_x, 0);
             this.top_left_y = Math.max(this.top_left_y, 0);
             
-            this.top_left_x = Math.min(this.top_left_x + this.width, map_size.x);
-            this.top_left_y = Math.min(this.top_left_y + this.height, map_size.y);
+            this.top_left_x = Math.min(this.top_left_x, map_size.x - this.width);
+            this.top_left_y = Math.min(this.top_left_y, map_size.y - this.height);
             
             this.bot_right_x = this.top_left_x + this.width;
             this.bot_right_y = this.top_left_x + this.height;
