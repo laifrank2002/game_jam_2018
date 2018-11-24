@@ -10,7 +10,7 @@ var buildings = {
 		'build_message_3': "One small step, one giant leap, blah.",
 		'build_message_4': "One small step, one giant leap.",
 		'build_message_5': "One small step, one giant.",
-		'max_message': "That's about all the free space there is to set up these darn things.",
+		'max_message': "No more space to put 'em up.",
 		'buy': function()
 		{
 			return {
