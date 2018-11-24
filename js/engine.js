@@ -7,14 +7,12 @@ var Engine = (function() {
     
     /*------- the core parts of the engine -------*/
     
-    // events
-    var triggers = [];
     /*------- for the ADR part -------*/
     
     
     //data
     var triggers = [];
-    
+    var event_global = [];
     /*--------for the Everyone's Sky part -------*/
     //data
     var ships = [], projectiles = [], asteroids = [], resources = [];
@@ -238,7 +236,7 @@ var Engine = (function() {
             removeEventListener("keyup", key_up_event);
         },
         
-        // events, triggers
+        // events
         add_trigger: function(event_name) {
             triggers.push(event_name);
         },
@@ -270,6 +268,23 @@ var Engine = (function() {
             }
         },
         
+		add_event_global: function(event_global_name, value) {
+			event_global[event_global_name] = value;
+		},
+		
+		set_event_global: function(event_global_name, value) {
+			event_global[event_global_name] = value;
+		},
+		
+		get_event_global: function(event_global_name) {
+			return event_global[event_global_name];
+		},
+		
+		remove_event_global: function(event_global_name) {
+            // search and delete 
+            delete event_global[event_global_name];
+        },
+		
         //getters: these will be visible, but not directly changeable
         get ships() { return ships; },
         get projectiles() { return projectiles; },

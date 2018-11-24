@@ -3,6 +3,7 @@ var MPM = (
 	{
 		var MINING_COOLDOWN = 50;
 		var DEFAULT_COOLDOWN = 1000;
+		var BUILD_COOLDOWN = 200;
 		var DEF_PANEL = "main_panel";
 		var panel;
 		// references

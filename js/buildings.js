@@ -6,7 +6,11 @@ var buildings = {
 		'maximum': 10,
 		'tooltip_message': "What a nice solar panel.",
 		'build_message': "One small step, one giant leap, blah blah blah.",
-		'max_message': "That's about all the free space there is to set up these darn things.",
+		'build_message_2': "One small step, one giant leap, blah blah.",
+		'build_message_3': "One small step, one giant leap, blah.",
+		'build_message_4': "One small step, one giant leap.",
+		'build_message_5': "One small step, one giant.",
+		'max_message': "No more space to put 'em up.",
 		'buy': function()
 		{
 			return {
@@ -33,6 +37,10 @@ var buildings = {
 		'maximum': 3,
 		'tooltip_message': "Mines ores automatically.",
 		'build_message': "Good bot.",
+		'build_message_2': "One small step, one giant leap, blah blah.",
+		'build_message_3': "One small step, one giant leap, blah.",
+		'build_message_4': "One small step, one giant leap.",
+		'build_message_5': "One small step, one giant.",
 		'max_message': "Any more and they'll crash into each other!",
 		'buy': function()
 		{
@@ -61,6 +69,10 @@ var buildings = {
 		'maximum': 2,
 		'tooltip_message': "Holds 3 more mining bots.",
 		'build_message': "A Good bot to manage more bots.",
+		'build_message_2': "One small step, one giant leap, blah blah.",
+		'build_message_3': "One small step, one giant leap, blah.",
+		'build_message_4': "One small step, one giant leap.",
+		'build_message_5': "One small step, one giant.",
 		'max_message': "You'll need more garages to house these depots.",
 		'buy': function()
 		{
@@ -89,6 +101,10 @@ var buildings = {
 		'maximum': 2,
 		'tooltip_message': "Transforms 1 iron ore into 1 iron.",
 		'build_message': "More iron!",
+		'build_message_2': "One small step, one giant leap, blah blah.",
+		'build_message_3': "One small step, one giant leap, blah.",
+		'build_message_4': "One small step, one giant leap.",
+		'build_message_5': "One small step, one giant.",
 		'max_message': "Little Timmy will soon discover the hazards of Carbon Monoxide poisoning.",
 		'buy': function()
 		{
@@ -120,6 +136,10 @@ var buildings = {
 		'maximum': 3,
 		'tooltip_message': "Uses the power of the sun and a polluted source to turn into clean (mostly) drinkable water at no cost to you in terms of energy!",
 		'build_message': "We are now officially a second world country!",
+		'build_message_2': "One small step, one giant leap, blah blah.",
+		'build_message_3': "One small step, one giant leap, blah.",
+		'build_message_4': "One small step, one giant leap.",
+		'build_message_5': "One small step, one giant.",
 		'max_message': "There are only so many polluted streams!",
 		'buy': function()
 		{
@@ -141,6 +161,10 @@ var buildings = {
 		'maximum': 1,
 		'tooltip_message': "Turns He3 and H2O into Q.",
 		'build_message': "(Almost) free energy!",
+		'build_message_2': "One small step, one giant leap, blah blah.",
+		'build_message_3': "One small step, one giant leap, blah.",
+		'build_message_4': "One small step, one giant leap.",
+		'build_message_5': "One small step, one giant.",
 		'max_message': "You can only have one!",
 		'buy': function()
 		{
@@ -169,6 +193,10 @@ var buildings = {
 		'maximum': 10,
 		'tooltip_message': "Freeride off of the limitless network of pre-existing He3 infrastructure! From [REDACTED] to your doorstep.",
 		'build_message': "Nationalized Infrastructure!",
+		'build_message_2': "One small step, one giant leap, blah blah.",
+		'build_message_3': "One small step, one giant leap, blah.",
+		'build_message_4': "One small step, one giant leap.",
+		'build_message_5': "One small step, one giant.",
 		'max_message': "That's all of the outlets there are. Even government waste has its limits.",
 		'buy': function()
 		{
@@ -192,5 +220,9 @@ var buildings = {
 		'button': null,
 		'maximum': 1,
 		'tooltip_message': "Refines all sorts of chemicals en masse into usable products.",
+		'build_message_2': "One small step, one giant leap, blah blah.",
+		'build_message_3': "One small step, one giant leap, blah.",
+		'build_message_4': "One small step, one giant leap.",
+		'build_message_5': "One small step, one giant.",
 	},
 }
