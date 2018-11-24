@@ -3,7 +3,7 @@ var buildings = {
 	'solar_panel': {
 		'name': "Solar Panel",	
 		'button': null,
-		'maximum': 10,
+		'maximum': 50,
 		'tooltip_message': "What a nice solar panel.",
 		'build_message': "One small step, one giant leap, blah blah blah.",
 		'build_message_2': "One small step, one giant leap, blah blah.",
@@ -66,7 +66,7 @@ var buildings = {
 	'mining_depot': {
 		'name': "Mining Rover Depot",
 		'button': null,
-		'maximum': 2,
+		'maximum': 3,
 		'tooltip_message': "Holds 3 more mining bots.",
 		'build_message': "A Good bot to manage more bots.",
 		'build_message_2': "One small step, one giant leap, blah blah.",
@@ -98,14 +98,14 @@ var buildings = {
 	'iron_smelter': {
 		'name': "Metal Forge",
 		'button': null,
-		'maximum': 2,
-		'tooltip_message': "Transforms 1 iron ore into 1 iron.",
+		'maximum': 5,
+		'tooltip_message': "Transforms 1 [metal] ore into 1 [metal].",
 		'build_message': "More iron!",
 		'build_message_2': "One small step, one giant leap, blah blah.",
 		'build_message_3': "One small step, one giant leap, blah.",
 		'build_message_4': "One small step, one giant leap.",
 		'build_message_5': "One small step, one giant.",
-		'max_message': "Little Timmy will soon discover the hazards of Carbon Monoxide poisoning.",
+		'max_message': "Carbon monoxide poisoning is never fun to have.",
 		'buy': function()
 		{
 			return {
@@ -127,20 +127,25 @@ var buildings = {
 				City.add_ware('raw_iron', -1);
 				City.add_ware('iron', 1);
 			}
+			if (City.get_ware('raw_decinium'.number >= 1)
+			{
+				City.add_ware('raw_decinium', -1);
+				City.add_ware('decinium', 1);
+			}
 		},
 	},
 	
 	'solar_distiller': {
 		'name': "Water Distiller",
 		'button': null,
-		'maximum': 3,
+		'maximum': 10,
 		'tooltip_message': "Uses the power of the sun and a polluted source to turn into clean (mostly) drinkable water at no cost to you in terms of energy!",
 		'build_message': "We are now officially a second world country!",
 		'build_message_2': "One small step, one giant leap, blah blah.",
 		'build_message_3': "One small step, one giant leap, blah.",
 		'build_message_4': "One small step, one giant leap.",
 		'build_message_5': "One small step, one giant.",
-		'max_message': "There are only so many polluted streams!",
+		'max_message': "There are only so many polluted streams to clean!",
 		'buy': function()
 		{
 			return {
@@ -151,7 +156,7 @@ var buildings = {
 		},
 		'produce': function()
 		{
-			City.add_ware('water',1);
+			City.add_ware('water', 1);
 		},
 	},
 	
@@ -165,7 +170,7 @@ var buildings = {
 		'build_message_3': "One small step, one giant leap, blah.",
 		'build_message_4': "One small step, one giant leap.",
 		'build_message_5': "One small step, one giant.",
-		'max_message': "You can only have one!",
+		'max_message': "There can be only one!",
 		'buy': function()
 		{
 			return {
@@ -197,7 +202,7 @@ var buildings = {
 		'build_message_3': "One small step, one giant leap, blah.",
 		'build_message_4': "One small step, one giant leap.",
 		'build_message_5': "One small step, one giant.",
-		'max_message': "That's all of the outlets there are. Even government waste has its limits.",
+		'max_message': "Even government waste has its limits, the rest is coming after the paperwork is done.",
 		'buy': function()
 		{
 			return {
@@ -216,13 +221,14 @@ var buildings = {
 	},
 	
 	'chemical_plant': {
-		'name': "Chemical Plant",
+		'name': "Chemical Processing Plant",
 		'button': null,
-		'maximum': 1,
-		'tooltip_message': "Refines all sorts of chemicals en masse into usable products.",
+		'maximum': 5,
+		'tooltip_message': "Refines all sorts of chemicals en masse into compounds and other products.",
 		'build_message_2': "One small step, one giant leap, blah blah.",
 		'build_message_3': "One small step, one giant leap, blah.",
 		'build_message_4': "One small step, one giant leap.",
 		'build_message_5': "One small step, one giant.",
+		'max_message': "",
 	},
 }
