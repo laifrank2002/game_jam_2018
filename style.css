@@ -160,6 +160,17 @@ div#main_panel
 	left: 0px;
 }
 
+div#explore_panel 
+{
+    height: 700px;
+	width: 700px;
+	margin: 20px 0 0 220px;
+	
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+
 div#display_panel
 {
 	position: absolute;
