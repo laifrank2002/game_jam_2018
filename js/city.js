@@ -100,8 +100,8 @@ var City = (
 				}
 				// add
 				City.add_building(name,1);
-				let result = Math.floor(Math.random() * Math.floor(5)) + 1;
-				switch (result) {
+				let msgResult = Math.floor(Math.random() * Math.floor(5)) + 1;
+				switch (msgResult) {
 					case 1:
 						Engine.notify(buildings[name].build_message);
 						break;
