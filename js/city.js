@@ -5,6 +5,7 @@ var City = (
 	{
 		var INCOME_INTERVAL = 1000;
 		var INCOME_RATE = 1;
+		var BUY_SCALE = 1;
 		var city = {};
 		var wares = {};
 		var utility = {};
