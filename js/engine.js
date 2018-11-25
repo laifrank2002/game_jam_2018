@@ -304,6 +304,13 @@ var Engine = (function() {
             removeEventListener("keyup", key_up_event);
         },
         
+        prompt: function(sentence, responses) {
+            //for prompting the player during explore
+            //sentence is the sentence prompt
+            //responses are the responses.
+            //play Everyone's Sky for a bit, and you'll know
+        },
+        
         // events
         add_trigger: function(event_name) {
             triggers.push(event_name);

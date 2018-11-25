@@ -7,4 +7,4 @@ function Planet(star, orbit_radius) {
 
 Planet.prototype.radius = 100;
 
-Planet.prototype.get_new_position
+//Planet.prototype.get_new_position
