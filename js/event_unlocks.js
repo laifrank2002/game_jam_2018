@@ -64,7 +64,7 @@ var events = {
 				,function()
 				{
 					City.buy_building("minerbot");
-					MPM.time_out(pickup_button, MPM.BUILD_COOLDOWN);
+					MPM.time_out(bot_button, MPM.BUILD_COOLDOWN);
 				}
 				,"initialize_build_bot_button",["light_button"]
 				,MPM.create_tooltip(JSON.stringify(buildings["minerbot"].buy())));
@@ -83,7 +83,6 @@ var events = {
 						Engine.notify("Hey! Look! There's shiny rocks everywhere!.");
 						events["initialize_mining"]["event"]();
 					}
-					MPM.time_out(bot_button, MPM.DEFAULT_COOLDOWN);
 				}
 				,"initialize_solar_panel_setup_button",["light_button"]));
 		}
