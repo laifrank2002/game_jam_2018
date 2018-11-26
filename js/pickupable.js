@@ -44,4 +44,5 @@ Pickupable.prototype.pickup = function() {
     Engine.log("a resource at (" + this.x + ", " + this.y + ") has been picked up.");
     
     //insert stuff below
+	events["explore_asteroid_mining_pickup_1"]["event"]();
 };

@@ -64,7 +64,6 @@ var events = {
 				,function()
 				{
 					City.buy_building("minerbot");
-					MPM.time_out(bot_button, MPM.BUILD_COOLDOWN);
 				}
 				,"initialize_build_bot_button",["light_button"]
 				,MPM.create_tooltip(JSON.stringify(buildings["minerbot"].buy())));
@@ -83,6 +82,7 @@ var events = {
 						Engine.notify("Hey! Look! There's shiny rocks everywhere!.");
 						events["initialize_mining"]["event"]();
 					}
+					MPM.time_out(bot_button, MPM.DEFAULT_COOLDOWN);
 				}
 				,"initialize_solar_panel_setup_button",["light_button"]));
 		}
@@ -308,6 +308,7 @@ var events = {
 		}
 	},
 	
+	// these triggers loop 
 	"shutoff_helium_fusion_plant": 
 	{
 		"trigger": function()
@@ -372,6 +373,25 @@ var events = {
 				{
 					
 				}
+			}
+		}
+	},
+	
+	"explore_asteroid_mining_pickup_1":
+	{
+		"trigger": function()
+		{
+			return true;
+		},
+		
+		"event": function()
+		{
+			// adds stuff directly to warehouse! 
+			City.add_ware("raw_iron",Math.floor(Math.random()*10));
+			City.add_ware("raw_decinium",Math.floor(Math.random()*5));
+			if (Math.random() < 0.025)
+			{
+				City.add_ware("sternium",Math.floor(Math.random()*8));
 			}
 		}
 	},
