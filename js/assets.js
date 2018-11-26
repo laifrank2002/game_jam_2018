@@ -28,3 +28,7 @@ function create_image(path) {
     img.src = path;
     return img;
 }
+
+function create_audio(path) {
+    return new Audio(path);
+}

@@ -8,7 +8,7 @@ function Pickupable(x, y) {
 }
 
 Pickupable.prototype.get_new_position = function(lapse) {
-    //these don't move...yet
+    //these don't move, unless the player is nearby
     
     //"magnetic" effect
     if (Math.hypot(this.x - Player_ship.pos.x, this.y - Player_ship.pos.y) < 50) {

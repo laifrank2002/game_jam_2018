@@ -95,7 +95,6 @@ Asteroid.prototype.explode = function() {
     
     //then scatter some resources
     var num = Math.random() * 8 + 3;
-    
     while (num > 0) {
         var angle  = Math.random() * 2 * Math.PI;
         var radius = Math.random() * 75;

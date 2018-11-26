@@ -1,3 +1,5 @@
+/* this file also contains code for the player's home star */
+
 var Player_planet = (function() {
     var angle = Math.PI;
     var pos   = { x: 2500, y: 2500 };

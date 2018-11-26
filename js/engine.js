@@ -5,8 +5,7 @@ var Engine = (function() {
     //the goal: put both engines into one file,
     //and hope to minify the impact of everything else
     var MAIN_HEIGHT = 700;
-    var MAIN_WIDTH = 700;
-    /*------- the core parts of the engine -------*/
+    var MAIN_WIDTH  = 700;
     /*------- for the ADR part -------*/
     //data
     var triggers = [];
@@ -18,8 +17,6 @@ var Engine = (function() {
     var ships = [], projectiles = [], asteroids = [], resources = [];
     
     var exploring = false;
-    
-    // event_listener for all the events 
     
     //to keep track of animation time
     var last_time = null, lapse = 0, paused = false;
