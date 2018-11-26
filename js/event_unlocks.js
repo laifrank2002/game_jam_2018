@@ -386,12 +386,18 @@ var events = {
 		
 		"event": function()
 		{
+			let added = [Math.floor(Math.random()*10),Math.floor(Math.random()*5)];
 			// adds stuff directly to warehouse! 
-			City.add_ware("raw_iron",Math.floor(Math.random()*10));
-			City.add_ware("raw_decinium",Math.floor(Math.random()*5));
+			City.add_ware("raw_iron",added[0]);
+			City.add_ware("raw_decinium",added[1]);
+			Engine.notify("Collected " + added[0] + " iron ore and " + added[1] + " decinium ore."); 
+			Engine.log("Pickup " + added[0] + " iron ore and " + added[1] + " decinium ore.");
 			if (Math.random() < 0.025)
 			{
-				City.add_ware("sternium",Math.floor(Math.random()*8));
+				let added_rare = [Math.floor(Math.random()*8)];
+				City.add_ware("sternium",added_rare[0]);
+				Engine.notify("We also found " + added_rare[0] + " sternium ore.");
+				Engine.log("Pickup " + added_rare[0] + " sternium ore.");
 			}
 		}
 	},
