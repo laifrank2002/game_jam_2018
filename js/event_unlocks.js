@@ -170,7 +170,64 @@ var events = {
 				,"initialize_solar_panel_setup_button2",["light_button"]));
 			
 			Engine.remove_trigger("initialize_trade_solar_panel");
+			Engine.add_trigger("initialize_repair_ship_button");
 			
+		}
+	},
+	
+	"initialize_repair_ship_button":
+	{
+		"trigger": function()
+		{
+			if (City.get_ware("decinium").number>=1000)
+			{
+				return true;
+			}
+			return false;
+		},
+		
+		"event": function()
+		{
+			build_panel.appendChild(MPM.create_button("Repair ship"
+				,function()
+				{
+					if (City.get_ware("decinium").number >= 10000 && City.get_ware("battery").number >= 100 && City.get_ware("iron").number >= 2000 && City.get_ware("silicon").number >= 5000 && City.get_ware("plastic").number >= 5000 )
+					{
+						City.add_ware("decinium",-10000);
+						City.add_ware("battery",-100);
+						City.add_ware("iron",-2000);
+						City.add_ware("silicon",-5000);
+						City.add_ware("plastic",-5000);
+						Engine.notify("With a bit of Engine grease, you manage to fix the ship. Let's hope it's seaworthy.");
+						MPM.remove_element("initialize_repair_ship_button");
+						events["initialize_explore_button"]["event"]();
+					}
+				}
+				,"initialize_repair_ship_button",["light_button"]
+				,MPM.create_tooltip("10000 decinium, 100 batteries, 2000 iron, 5000 silicon, 5000 plastic")));
+			
+			Engine.remove_trigger("initialize_repair_ship_button");
+			Engine.notify("The mysterious being returns, and guides you to a dark corner you've not seen before. There is a ship here, and you must repair it.");
+		}
+	},
+	
+	"initialize_explore_button":
+	{
+		"trigger": function()
+		{
+			
+		},
+		
+		"event": function()
+		{
+			build_panel.appendChild(MPM.create_button("Explore"
+				,function()
+				{
+					Engine.switch_explore();
+					Engine.notify("The old engine creaks and cracks, but it flys!");
+				}
+				,"initialize_explore_button",["light_button"]
+				,MPM.create_tooltip("Fly!")));
 		}
 	},
 	

@@ -197,6 +197,7 @@ var Engine = (function() {
                 Engine.deact_explore();
                 Engine.deactivate_keys();
                 exploring = false;
+				Engine.log("Initializing city...");
             }
             else
             {
@@ -206,6 +207,7 @@ var Engine = (function() {
                 Engine.animate();
                 Engine.activate_keys();
                 exploring = true;
+				Engine.log("Initializing explore...");
             }
         },
         
